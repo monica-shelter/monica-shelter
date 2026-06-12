@@ -245,10 +245,640 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:#888;co
 // This is the "source of truth" baked into the file.
 // Volunteers load this on first visit, then localStorage takes over.
 const EMBEDDED = {
-  version: 1,
-  zones: [],
-  boundary: [],
-  pwHashes: { editor: '', master: '' }
+  "version": 2,
+  "zones": [
+    {
+      "id": 11,
+      "type": "kennel-sm",
+      "label": "Helga",
+      "x": 440,
+      "y": 300,
+      "w": 3,
+      "h": 4
+    },
+    {
+      "id": 12,
+      "type": "kennel-sm",
+      "label": "Boys puppies",
+      "x": 500,
+      "y": 300,
+      "w": 3,
+      "h": 4
+    },
+    {
+      "id": 13,
+      "type": "kennel-sm",
+      "label": "Wilson",
+      "x": 560,
+      "y": 300,
+      "w": 3,
+      "h": 4
+    },
+    {
+      "id": 14,
+      "type": "kennel-sm",
+      "label": "Kira",
+      "x": 620,
+      "y": 300,
+      "w": 3,
+      "h": 4
+    },
+    {
+      "id": 15,
+      "type": "kennel-sm",
+      "label": "Fontana",
+      "x": 680,
+      "y": 300,
+      "w": 3,
+      "h": 4
+    },
+    {
+      "id": 16,
+      "type": "kennel-sm",
+      "label": "Dona",
+      "x": 740,
+      "y": 300,
+      "w": 3,
+      "h": 4
+    },
+    {
+      "id": 17,
+      "type": "kennel-sm",
+      "label": "Lola",
+      "x": 800,
+      "y": 300,
+      "w": 3,
+      "h": 4
+    },
+    {
+      "id": 18,
+      "type": "kennel-sm",
+      "label": "Pearl",
+      "x": 860,
+      "y": 300,
+      "w": 3,
+      "h": 4
+    },
+    {
+      "id": 27,
+      "type": "kennel-sm",
+      "label": "Oscar",
+      "x": 940,
+      "y": 400,
+      "w": 5,
+      "h": 4
+    },
+    {
+      "id": 19,
+      "type": "kennel-sm",
+      "label": "Scoubi",
+      "x": 980,
+      "y": 300,
+      "w": 3,
+      "h": 4
+    },
+    {
+      "id": 59,
+      "type": "kennel-sm",
+      "label": "Clark",
+      "x": 920,
+      "y": 300,
+      "w": 3,
+      "h": 4
+    },
+    {
+      "id": 28,
+      "type": "kennel-sm",
+      "label": "Mango",
+      "x": 1040,
+      "y": 400,
+      "w": 5,
+      "h": 4
+    },
+    {
+      "id": 21,
+      "type": "fence",
+      "label": "",
+      "x": 360,
+      "y": 280,
+      "w": 41,
+      "h": 1
+    },
+    {
+      "id": 60,
+      "type": "fence",
+      "label": "",
+      "x": 1160,
+      "y": 300,
+      "w": 1,
+      "h": 2
+    },
+    {
+      "id": 36,
+      "type": "custom",
+      "label": "Ducks",
+      "x": 1180,
+      "y": 340,
+      "w": 8,
+      "h": 3,
+      "dogs": [],
+      "zoneNotes": ""
+    },
+    {
+      "id": 61,
+      "type": "fence",
+      "label": "",
+      "x": 1180,
+      "y": 320,
+      "w": 13,
+      "h": 1
+    },
+    {
+      "id": 48,
+      "type": "fence",
+      "label": "",
+      "x": 1340,
+      "y": 660,
+      "w": 16,
+      "h": 1
+    },
+    {
+      "id": 63,
+      "type": "fence",
+      "label": "",
+      "x": 440,
+      "y": 820,
+      "w": 31,
+      "h": 1
+    },
+    {
+      "id": 69,
+      "type": "fence",
+      "label": "",
+      "x": 420,
+      "y": 720,
+      "w": 1,
+      "h": 6
+    },
+    {
+      "id": 68,
+      "type": "fence",
+      "label": "",
+      "x": 360,
+      "y": 700,
+      "w": 4,
+      "h": 1
+    },
+    {
+      "id": 25,
+      "type": "fence",
+      "label": "",
+      "x": 360,
+      "y": 300,
+      "w": 1,
+      "h": 20
+    },
+    {
+      "id": 24,
+      "type": "kennel-sm",
+      "label": "Mom+1puppy",
+      "x": 380,
+      "y": 580,
+      "w": 3,
+      "h": 6
+    },
+    {
+      "id": 23,
+      "type": "kennel-sm",
+      "label": "Monkey puppies",
+      "x": 380,
+      "y": 500,
+      "w": 3,
+      "h": 4
+    },
+    {
+      "id": 22,
+      "type": "kennel-sm",
+      "label": "Simba",
+      "x": 380,
+      "y": 420,
+      "w": 3,
+      "h": 4
+    },
+    {
+      "id": 40,
+      "type": "kennel-sm",
+      "label": "Chicken puppies",
+      "x": 1340,
+      "y": 340,
+      "w": 5,
+      "h": 3
+    },
+    {
+      "id": 20,
+      "type": "kennel-sm",
+      "label": "4 puppies",
+      "x": 1040,
+      "y": 300,
+      "w": 3,
+      "h": 4
+    },
+    {
+      "id": 10,
+      "type": "kennel-sm",
+      "label": "Dakota",
+      "x": 380,
+      "y": 300,
+      "w": 3,
+      "h": 4
+    },
+    {
+      "id": 32,
+      "type": "kennel-sm",
+      "label": "Barky puppies",
+      "x": 1040,
+      "y": 500,
+      "w": 5,
+      "h": 4
+    },
+    {
+      "id": 31,
+      "type": "kennel-sm",
+      "label": "Small puppies",
+      "x": 940,
+      "y": 500,
+      "w": 5,
+      "h": 4
+    },
+    {
+      "id": 77,
+      "type": "fence",
+      "label": "",
+      "x": 940,
+      "y": 480,
+      "w": 10,
+      "h": 1
+    },
+    {
+      "id": 26,
+      "type": "kennel-sm",
+      "label": "Girls puppies",
+      "x": 840,
+      "y": 440,
+      "w": 4,
+      "h": 4
+    },
+    {
+      "id": 78,
+      "type": "fence",
+      "label": "",
+      "x": 920,
+      "y": 400,
+      "w": 1,
+      "h": 6
+    },
+    {
+      "id": 79,
+      "type": "fence",
+      "label": "",
+      "x": 840,
+      "y": 520,
+      "w": 5,
+      "h": 1
+    },
+    {
+      "id": 46,
+      "type": "fence",
+      "label": "",
+      "x": 840,
+      "y": 560,
+      "w": 1,
+      "h": 13
+    },
+    {
+      "id": 52,
+      "type": "kennel-sm",
+      "label": "Felix",
+      "x": 1580,
+      "y": 480,
+      "w": 3,
+      "h": 3
+    },
+    {
+      "id": 51,
+      "type": "kennel-sm",
+      "label": "Brothers",
+      "x": 1520,
+      "y": 480,
+      "w": 3,
+      "h": 3
+    },
+    {
+      "id": 50,
+      "type": "kennel-sm",
+      "label": "Akita",
+      "x": 1460,
+      "y": 480,
+      "w": 3,
+      "h": 3
+    },
+    {
+      "id": 49,
+      "type": "kennel-sm",
+      "label": "Dina",
+      "x": 1400,
+      "y": 480,
+      "w": 3,
+      "h": 3
+    },
+    {
+      "id": 44,
+      "type": "fence",
+      "label": "",
+      "x": 1640,
+      "y": 480,
+      "w": 1,
+      "h": 9
+    },
+    {
+      "id": 42,
+      "type": "fence",
+      "label": "",
+      "x": 1340,
+      "y": 480,
+      "w": 1,
+      "h": 9
+    },
+    {
+      "id": 41,
+      "type": "fence",
+      "label": "",
+      "x": 1340,
+      "y": 460,
+      "w": 16,
+      "h": 1
+    },
+    {
+      "id": 43,
+      "type": "fence",
+      "label": "",
+      "x": 1440,
+      "y": 320,
+      "w": 1,
+      "h": 7
+    },
+    {
+      "id": 33,
+      "type": "storage",
+      "label": "Storage",
+      "x": 1260,
+      "y": 460,
+      "w": 3,
+      "h": 3,
+      "dogs": [],
+      "zoneNotes": ""
+    },
+    {
+      "id": 39,
+      "type": "custom",
+      "label": "Chickens",
+      "x": 1260,
+      "y": 400,
+      "w": 9,
+      "h": 3
+    },
+    {
+      "id": 29,
+      "type": "fence",
+      "label": "",
+      "x": 1160,
+      "y": 360,
+      "w": 1,
+      "h": 15
+    },
+    {
+      "id": 45,
+      "type": "vet",
+      "label": "Monica's",
+      "x": 1120,
+      "y": 680,
+      "w": 6,
+      "h": 2
+    },
+    {
+      "id": 70,
+      "type": "fence",
+      "label": "",
+      "x": 1040,
+      "y": 700,
+      "w": 4,
+      "h": 1
+    },
+    {
+      "id": 71,
+      "type": "fence",
+      "label": "",
+      "x": 1040,
+      "y": 720,
+      "w": 1,
+      "h": 5
+    },
+    {
+      "id": 66,
+      "type": "kennel-sm",
+      "label": "4 puppies",
+      "x": 1060,
+      "y": 720,
+      "w": 3,
+      "h": 9
+    },
+    {
+      "id": 65,
+      "type": "kennel-sm",
+      "label": "Olivia",
+      "x": 1120,
+      "y": 720,
+      "w": 3,
+      "h": 9
+    },
+    {
+      "id": 47,
+      "type": "vet",
+      "label": "House",
+      "x": 1180,
+      "y": 720,
+      "w": 6,
+      "h": 6
+    },
+    {
+      "id": 64,
+      "type": "kennel-sm",
+      "label": "10 puppies",
+      "x": 1180,
+      "y": 840,
+      "w": 5,
+      "h": 3
+    },
+    {
+      "id": 58,
+      "type": "fence",
+      "label": "",
+      "x": 1280,
+      "y": 840,
+      "w": 1,
+      "h": 2
+    },
+    {
+      "id": 53,
+      "type": "fence",
+      "label": "",
+      "x": 1340,
+      "y": 680,
+      "w": 1,
+      "h": 8
+    },
+    {
+      "id": 72,
+      "type": "open",
+      "label": "Ozo",
+      "x": 1360,
+      "y": 680,
+      "w": 14,
+      "h": 8
+    },
+    {
+      "id": 55,
+      "type": "fence",
+      "label": "",
+      "x": 1640,
+      "y": 680,
+      "w": 1,
+      "h": 8
+    },
+    {
+      "id": 54,
+      "type": "fence",
+      "label": "",
+      "x": 1320,
+      "y": 840,
+      "w": 17,
+      "h": 1
+    },
+    {
+      "id": 67,
+      "type": "fence",
+      "label": "",
+      "x": 1040,
+      "y": 840,
+      "w": 1,
+      "h": 3
+    },
+    {
+      "id": 57,
+      "type": "fence",
+      "label": "",
+      "x": 1040,
+      "y": 900,
+      "w": 31,
+      "h": 1
+    },
+    {
+      "id": 56,
+      "type": "fence",
+      "label": "",
+      "x": 1640,
+      "y": 880,
+      "w": 1,
+      "h": 1
+    },
+    {
+      "id": 62,
+      "type": "storage",
+      "label": "Shy puppies",
+      "x": 1200,
+      "y": 400,
+      "w": 3,
+      "h": 4,
+      "dogs": [],
+      "zoneNotes": ""
+    },
+    {
+      "id": 73,
+      "type": "open",
+      "label": "Peps",
+      "x": 1360,
+      "y": 540,
+      "w": 14,
+      "h": 6,
+      "dogs": [],
+      "zoneNotes": ""
+    },
+    {
+      "id": 81,
+      "type": "open",
+      "label": "Open area",
+      "x": 1180,
+      "y": 520,
+      "w": 8,
+      "h": 8,
+      "dogs": [],
+      "zoneNotes": ""
+    }
+  ],
+  "boundary": [
+    {
+      "x": 362.5840197200876,
+      "y": 285.3132557093245
+    },
+    {
+      "x": 1166.0700638277167,
+      "y": 292.639876172312
+    },
+    {
+      "x": 1163.627857006721,
+      "y": 326.83077166625367
+    },
+    {
+      "x": 1449.3660550632333,
+      "y": 326.83077166625367
+    },
+    {
+      "x": 1449.3660550632333,
+      "y": 461.1521468210245
+    },
+    {
+      "x": 1656.9536348478791,
+      "y": 468.47876728401195
+    },
+    {
+      "x": 1654.5114280268833,
+      "y": 903.1915814212703
+    },
+    {
+      "x": 1046.4019295989208,
+      "y": 903.1915814212703
+    },
+    {
+      "x": 1046.4019295989208,
+      "y": 839.6942040753786
+    },
+    {
+      "x": 428.5236038869751,
+      "y": 829.9253767913953
+    },
+    {
+      "x": 426.0813970659793,
+      "y": 710.2572425625995
+    },
+    {
+      "x": 365.0262265410834,
+      "y": 712.6994493835953
+    }
+  ],
+  "pwHashes": {
+    "editor": "4da08eded9c261ac79afe13ca1c4a449e3b5c1ff454176a003d62d3e6268fb17",
+    "master": "7a3df86a086bc4c26ead56a197be9c8012c6f53c804fac8b78715559aa78316a"
+  }
 };
 
 const LS_KEY = 'monica-shelter-data';
