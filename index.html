@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<!-- saved from url=(0045)file:///C:/Users/alrea/Downloads/index_1.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Monica's Shelter — Muscelusa</title>
 <style>
 :root{
-  --green-bg:#4a7c3f;--cream:#f5f0e8;--bark:#8b6340;--bark-dark:#5c3d1e;--bark-light:#c49a6c;
+  --cream:#f5f0e8;--bark:#8b6340;--bark-dark:#5c3d1e;--bark-light:#c49a6c;
   --text-main:#1a1a1a;--text-muted:#5a5a5a;--shadow:0 4px 24px rgba(0,0,0,0.22);
   --font:'Segoe UI',system-ui,-apple-system,sans-serif;
 }
@@ -21,6 +21,12 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:#888;co
 #mode-badge.master{background:#7a1010;color:#ffc8c8;border-color:#c04040}
 #auth-btn{font-size:12px;padding:4px 11px;border-radius:20px;cursor:pointer;font-weight:600;background:transparent;color:var(--cream);border:1px solid rgba(255,255,255,.28)}
 #auth-btn:hover{background:rgba(255,255,255,.1)}
+#sync-status{font-size:10px;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:4px}
+#sync-dot{width:6px;height:6px;border-radius:50%;background:#888;flex-shrink:0;transition:background .3s}
+#sync-dot.ok{background:#6f6}
+#sync-dot.saving{background:#fa0;animation:pulse .7s infinite alternate}
+#sync-dot.err{background:#f44}
+@keyframes pulse{from{opacity:1}to{opacity:.3}}
 #main{display:flex;flex-direction:column;height:calc(100vh - 48px);overflow:hidden}
 #master-toolbar{display:none;flex-wrap:wrap;gap:4px;padding:6px 9px;background:#3d0a0a;border-bottom:2px solid #a04040;align-items:center}
 #master-toolbar.visible{display:flex}
@@ -39,12 +45,6 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:#888;co
 #hint{font-size:11px;color:rgba(255,255,255,.45);padding:3px 9px;background:#1a1a1a;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0}
 #boundary-hint{display:none;padding:5px 12px;background:#1a3a5a;border-top:1px solid #4a8ac0;font-size:12px;color:#a8d8f8;align-items:center;justify-content:space-between;gap:8px;flex-shrink:0}
 #boundary-hint button{font-size:11px;padding:3px 9px;border-radius:6px;border:1px solid #4a8ac0;background:rgba(74,138,192,.2);color:#a8d8f8;cursor:pointer}
-
-/* Update banner */
-#update-banner{display:none;padding:8px 14px;background:#1a4a2a;border-bottom:2px solid #4a9a5a;font-size:12px;color:#a8f0b8;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0}
-#update-banner button{font-size:11px;padding:4px 12px;border-radius:6px;border:1px solid #4a9a5a;background:rgba(74,154,90,.25);color:#a8f0b8;cursor:pointer;font-weight:600}
-#update-banner button:hover{background:rgba(74,154,90,.45)}
-
 #overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:none;align-items:center;justify-content:center;padding:12px}
 #overlay.open{display:flex}
 #dog-card{background:var(--cream);border-radius:14px;width:100%;max-width:500px;max-height:90vh;display:flex;flex-direction:column;box-shadow:var(--shadow);overflow:hidden}
@@ -101,116 +101,109 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:#888;co
 .level-btns{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
 .level-btn{padding:10px;border-radius:9px;border:1px solid #c0b8a8;background:#fff;font-size:13px;font-weight:600;cursor:pointer;text-align:left}
 .level-btn:hover{background:#ede8e0}
-.level-btn .lbl{color:var(--bark-dark)}
+.level-btn .lbl{color:var(--bark-dark);display:block}
 .level-btn .sub{font-size:11px;color:var(--text-muted);font-weight:400;display:block;margin-top:2px}
 #changepw-modal .form-row2{display:flex;flex-direction:column;gap:10px;margin-bottom:12px;text-align:left}
 #changepw-modal label{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:3px}
 #changepw-modal input{width:100%;font-size:13px;padding:7px 10px;border-radius:7px;border:1px solid #c0b8a8;background:#fff;font-family:var(--font);letter-spacing:normal;text-align:left}
-#json-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;display:none;align-items:center;justify-content:center;padding:12px}
-#json-modal.open{display:flex}
-#json-box{background:var(--cream);border-radius:14px;padding:14px;width:100%;max-width:580px;max-height:90vh;display:flex;flex-direction:column;gap:9px;box-shadow:var(--shadow)}
-#json-box h3{font-size:13px;color:var(--bark-dark)}
-#json-box p{font-size:11px;color:var(--text-muted)}
-#json-ta{flex:1;min-height:180px;font-family:monospace;font-size:11px;padding:7px;border:1px solid #c0b8a8;border-radius:7px;resize:none}
-.jbtns{display:flex;gap:7px;flex-wrap:wrap}
-.jb{font-size:12px;padding:6px 13px;border-radius:7px;border:1px solid #c0b8a8;background:var(--cream);color:var(--text-main);cursor:pointer;font-weight:600}
-.jb:hover{background:#ede8e0}
-.jb.p{background:var(--bark-dark);color:var(--cream);border-color:var(--bark-dark)}
-.jb.p:hover{background:var(--bark)}
+#loading-screen{position:fixed;inset:0;background:var(--bark-dark);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:var(--cream)}
+#loading-screen .ico{font-size:48px}
+#loading-screen p{font-size:14px;opacity:.7}
+#loading-bar{width:200px;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden}
+#loading-fill{height:100%;width:0%;background:var(--bark-light);border-radius:2px;transition:width .4s}
 @media(max-width:480px){#header h1 span{display:none}#dog-card{max-height:95vh}}
 </style>
 </head>
 <body>
+
+<div id="loading-screen" style="transition: opacity 0.4s; opacity: 0; display: none;">
+  <div class="ico">🐾</div>
+  <div id="loading-bar"><div id="loading-fill" style="width: 100%;"></div></div>
+  <p id="loading-msg">Map loaded!</p>
+</div>
+
 <div id="header">
   <h1>🐾 Monica's Shelter <span>Muscelusa, Romania</span></h1>
   <div id="header-right">
-    <span id="mode-badge">READ ONLY</span>
-    <button id="auth-btn" onclick="openAuthMenu()">🔒 Log in</button>
+    <div id="sync-status"><div id="sync-dot" class="ok"></div><span id="sync-txt">Synced</span></div>
+    <span id="mode-badge" class="master">MASTER</span>
+    <button id="auth-btn">🔓 Log out</button>
   </div>
 </div>
 
 <div id="main">
-  <!-- Update banner (shown to volunteers when GitHub version is newer) -->
-  <div id="update-banner">
-    <span>🔄 The shelter map has been updated. Reload to get the latest version?</span>
-    <button onclick="applyUpdate()">Reload now</button>
-  </div>
-
-  <div id="master-toolbar">
-    <button class="tb on" id="bsel" onclick="M('select')">↖ Select</button>
+  <div id="master-toolbar" class="visible">
+    <button class="tb on" id="bsel" data-mode="select">↖ Select</button>
     <div class="tb-sep"></div>
     <span style="font-size:11px;color:rgba(255,255,255,.4)">Add:</span>
-    <button class="tb" onclick="M('kennel-sm')">🟦 Sm</button>
-    <button class="tb" onclick="M('kennel-md')">🟧 Md</button>
-    <button class="tb" onclick="M('kennel-lg')">⬜ Lg</button>
-    <button class="tb" onclick="M('open')">🌿 Open</button>
-    <button class="tb" onclick="M('storage')">🟫 Storage</button>
-    <button class="tb" onclick="M('water')">🔵 Water</button>
-    <button class="tb" onclick="M('vet')">🟪 Vet</button>
-    <button class="tb" onclick="M('fence')">▬ Fence</button>
-    <button class="tb" onclick="M('custom')">✏️ Custom</button>
+    <button class="tb" data-mode="kennel-sm">🟦 Sm</button>
+    <button class="tb" data-mode="kennel-md">🟧 Md</button>
+    <button class="tb" data-mode="kennel-lg">⬜ Lg</button>
+    <button class="tb" data-mode="open">🌿 Open</button>
+    <button class="tb" data-mode="storage">🟫 Storage</button>
+    <button class="tb" data-mode="water">🔵 Water</button>
+    <button class="tb" data-mode="vet">🟪 Vet</button>
+    <button class="tb" data-mode="fence">▬ Fence</button>
+    <button class="tb" data-mode="custom">✏️ Custom</button>
     <div class="tb-sep"></div>
-    <button class="tb" onclick="delSel()">🗑</button>
+    <button class="tb" id="btn-delete">🗑</button>
     <div class="tb-sep"></div>
-    <button class="tb" onclick="zoom(-0.15)">−</button>
-    <span id="zoom-lbl">100%</span>
-    <button class="tb" onclick="zoom(0.15)">+</button>
-    <button class="tb" onclick="resetView()">⌂</button>
+    <button class="tb" id="btn-zoom-out">−</button>
+    <span id="zoom-lbl">44%</span>
+    <button class="tb" id="btn-zoom-in">+</button>
+    <button class="tb" id="btn-reset-view">⌂</button>
     <div class="tb-sep"></div>
-    <button class="tb" id="btn-boundary" onclick="startBoundary()">📐 Boundary</button>
-    <button class="tb danger" onclick="clearBoundary()">✕ Boundary</button>
+    <button class="tb" id="btn-boundary">📐 Boundary</button>
+    <button class="tb danger" id="btn-clear-boundary">✕ Boundary</button>
     <div class="tb-sep"></div>
-    <button class="tb" onclick="showJson()">💾 Save/Load</button>
-    <button class="tb" onclick="openChangePw()">🔑 Passwords</button>
+    <button class="tb" id="btn-changepw">🔑 Passwords</button>
   </div>
 
-  <div id="canvas-wrap"><canvas id="cv"></canvas></div>
+  <div id="canvas-wrap"><canvas id="cv" width="1528" height="662" style="cursor: default;"></canvas></div>
 
   <div id="boundary-hint">
     <span>📐 Click to place points · Double-click or click first point (yellow) to close</span>
-    <button onclick="cancelBoundary()">Cancel</button>
+    <button id="btn-cancel-boundary">Cancel</button>
   </div>
-  <div id="rename-bar">
+  <div id="rename-bar" style="display: none;">
     <span style="font-size:11px;color:rgba(255,255,255,.6)">Label:</span>
-    <input id="ri" type="text" placeholder="Zone name…"/>
-    <button onclick="apR()">OK</button>
-    <button onclick="clR()">Cancel</button>
+    <input id="ri" type="text" placeholder="Zone name…">
+    <button id="btn-rename-ok">OK</button>
+    <button id="btn-rename-cancel">Cancel</button>
   </div>
-  <div id="hint">Tap any zone to see info · Scroll to zoom · Ctrl+drag or two-finger drag to pan</div>
+  <div id="hint">Tap any zone to see info · Scroll to zoom · Ctrl+drag to pan</div>
 </div>
 
-<div id="overlay" onclick="closeCardBg(event)">
+<div id="overlay">
   <div id="dog-card">
     <div id="card-header">
       <div><div id="card-title">Zone</div><div id="card-subtitle"></div></div>
-      <button id="card-close" onclick="closeOverlay()">✕</button>
+      <button id="card-close">✕</button>
     </div>
     <div id="card-body"></div>
   </div>
 </div>
 
-<div id="lightbox" onclick="this.classList.remove('open')">
-  <img id="lightbox-img" src="" alt=""/>
-</div>
+<div id="lightbox"><img id="lightbox-img" src="file:///C:/Users/alrea/Downloads/index_1.html" alt=""></div>
 
 <div class="modal-bg" id="auth-level-modal">
   <div class="modal-box">
     <h2>🔐 Log in</h2><p>Choose your access level</p>
     <div class="level-btns">
-      <button class="level-btn" onclick="pickLevel('editor')"><span class="lbl">✏️ Editor</span><span class="sub">Edit kennel info and dog descriptions</span></button>
-      <button class="level-btn" onclick="pickLevel('master')"><span class="lbl">⚙️ Master</span><span class="sub">Full access — map editing, password management</span></button>
+      <button class="level-btn" id="btn-pick-editor"><span class="lbl">✏️ Editor</span><span class="sub">Edit kennel info and dog descriptions</span></button>
+      <button class="level-btn" id="btn-pick-master"><span class="lbl">⚙️ Master</span><span class="sub">Full access — map editing, password management</span></button>
     </div>
-    <button class="modal-cancel" onclick="closeModal('auth-level-modal')">Cancel</button>
+    <button class="modal-cancel" id="btn-cancel-auth">Cancel</button>
   </div>
 </div>
 
 <div class="modal-bg" id="pw-modal">
   <div class="modal-box">
-    <h2 id="pw-modal-title">Enter password</h2><p id="pw-modal-sub"></p>
-    <input type="password" id="pw-input" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()"/>
-    <button class="modal-go" onclick="checkPw()">Unlock</button>
-    <div class="modal-err" id="pw-err"></div>
-    <button class="modal-cancel" onclick="closeModal('pw-modal')">Cancel</button>
+    <h2 id="pw-modal-title">⚙️ Master access</h2><p id="pw-modal-sub">Full map and data editing</p>
+    <input type="password" id="pw-input" placeholder="Password">
+    <button class="modal-go" id="btn-pw-go">Unlock</button>
+    <div class="modal-err" id="pw-err">Incorrect password.</div>
+    <button class="modal-cancel" id="btn-pw-cancel">Cancel</button>
   </div>
 </div>
 
@@ -218,692 +211,53 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:#888;co
   <div class="modal-box">
     <h2>🔑 Change passwords</h2><p>Leave blank to keep current password.</p>
     <div class="form-row2">
-      <div><label>New editor password</label><input type="password" id="new-editor-pw" placeholder="New editor password…"/></div>
-      <div><label>New master password</label><input type="password" id="new-master-pw" placeholder="New master password…"/></div>
+      <div><label>New editor password</label><input type="password" id="new-editor-pw" placeholder="New editor password…"></div>
+      <div><label>New master password</label><input type="password" id="new-master-pw" placeholder="New master password…"></div>
     </div>
-    <button class="modal-go" onclick="applyChangePw()">Save passwords</button>
+    <button class="modal-go" id="btn-save-pw">Save passwords</button>
     <div class="modal-err" id="changepw-err"></div>
-    <button class="modal-cancel" onclick="closeModal('changepw-modal')">Cancel</button>
+    <button class="modal-cancel" id="btn-cancel-changepw">Cancel</button>
   </div>
 </div>
 
-<div id="json-modal">
-  <div id="json-box">
-    <h3>💾 Save / Load</h3>
-    <p>Copy this JSON and paste it into your HTML file on GitHub to publish updates to all volunteers. Passwords are stored as hashes — safe to commit publicly.</p>
-    <textarea id="json-ta" spellcheck="false"></textarea>
-    <div class="jbtns">
-      <button class="jb" onclick="cpJ()">📋 Copy all</button>
-      <button class="jb p" onclick="ldJ()">📂 Load from above</button>
-      <button class="jb" onclick="hideJson()">Close</button>
-    </div>
-  </div>
-</div>
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, doc, getDoc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-<script>
-// ── EMBEDDED DATA (replaced by GitHub commit) ──
-// This is the "source of truth" baked into the file.
-// Volunteers load this on first visit, then localStorage takes over.
-const EMBEDDED = {
-  "version": 2,
-  "zones": [
-    {
-      "id": 11,
-      "type": "kennel-sm",
-      "label": "Helga",
-      "x": 440,
-      "y": 300,
-      "w": 3,
-      "h": 4
-    },
-    {
-      "id": 12,
-      "type": "kennel-sm",
-      "label": "Boys puppies",
-      "x": 500,
-      "y": 300,
-      "w": 3,
-      "h": 4
-    },
-    {
-      "id": 13,
-      "type": "kennel-sm",
-      "label": "Wilson",
-      "x": 560,
-      "y": 300,
-      "w": 3,
-      "h": 4
-    },
-    {
-      "id": 14,
-      "type": "kennel-sm",
-      "label": "Kira",
-      "x": 620,
-      "y": 300,
-      "w": 3,
-      "h": 4
-    },
-    {
-      "id": 15,
-      "type": "kennel-sm",
-      "label": "Fontana",
-      "x": 680,
-      "y": 300,
-      "w": 3,
-      "h": 4
-    },
-    {
-      "id": 16,
-      "type": "kennel-sm",
-      "label": "Dona",
-      "x": 740,
-      "y": 300,
-      "w": 3,
-      "h": 4
-    },
-    {
-      "id": 17,
-      "type": "kennel-sm",
-      "label": "Lola",
-      "x": 800,
-      "y": 300,
-      "w": 3,
-      "h": 4
-    },
-    {
-      "id": 18,
-      "type": "kennel-sm",
-      "label": "Pearl",
-      "x": 860,
-      "y": 300,
-      "w": 3,
-      "h": 4
-    },
-    {
-      "id": 27,
-      "type": "kennel-sm",
-      "label": "Oscar",
-      "x": 940,
-      "y": 400,
-      "w": 5,
-      "h": 4
-    },
-    {
-      "id": 19,
-      "type": "kennel-sm",
-      "label": "Scoubi",
-      "x": 980,
-      "y": 300,
-      "w": 3,
-      "h": 4
-    },
-    {
-      "id": 59,
-      "type": "kennel-sm",
-      "label": "Clark",
-      "x": 920,
-      "y": 300,
-      "w": 3,
-      "h": 4
-    },
-    {
-      "id": 28,
-      "type": "kennel-sm",
-      "label": "Mango",
-      "x": 1040,
-      "y": 400,
-      "w": 5,
-      "h": 4
-    },
-    {
-      "id": 21,
-      "type": "fence",
-      "label": "",
-      "x": 360,
-      "y": 280,
-      "w": 41,
-      "h": 1
-    },
-    {
-      "id": 60,
-      "type": "fence",
-      "label": "",
-      "x": 1160,
-      "y": 300,
-      "w": 1,
-      "h": 2
-    },
-    {
-      "id": 36,
-      "type": "custom",
-      "label": "Ducks",
-      "x": 1180,
-      "y": 340,
-      "w": 8,
-      "h": 3,
-      "dogs": [],
-      "zoneNotes": ""
-    },
-    {
-      "id": 61,
-      "type": "fence",
-      "label": "",
-      "x": 1180,
-      "y": 320,
-      "w": 13,
-      "h": 1
-    },
-    {
-      "id": 48,
-      "type": "fence",
-      "label": "",
-      "x": 1340,
-      "y": 660,
-      "w": 16,
-      "h": 1
-    },
-    {
-      "id": 63,
-      "type": "fence",
-      "label": "",
-      "x": 440,
-      "y": 820,
-      "w": 31,
-      "h": 1
-    },
-    {
-      "id": 69,
-      "type": "fence",
-      "label": "",
-      "x": 420,
-      "y": 720,
-      "w": 1,
-      "h": 6
-    },
-    {
-      "id": 68,
-      "type": "fence",
-      "label": "",
-      "x": 360,
-      "y": 700,
-      "w": 4,
-      "h": 1
-    },
-    {
-      "id": 25,
-      "type": "fence",
-      "label": "",
-      "x": 360,
-      "y": 300,
-      "w": 1,
-      "h": 20
-    },
-    {
-      "id": 24,
-      "type": "kennel-sm",
-      "label": "Mom+1puppy",
-      "x": 380,
-      "y": 580,
-      "w": 3,
-      "h": 6
-    },
-    {
-      "id": 23,
-      "type": "kennel-sm",
-      "label": "Monkey puppies",
-      "x": 380,
-      "y": 500,
-      "w": 3,
-      "h": 4
-    },
-    {
-      "id": 22,
-      "type": "kennel-sm",
-      "label": "Simba",
-      "x": 380,
-      "y": 420,
-      "w": 3,
-      "h": 4
-    },
-    {
-      "id": 40,
-      "type": "kennel-sm",
-      "label": "Chicken puppies",
-      "x": 1340,
-      "y": 340,
-      "w": 5,
-      "h": 3
-    },
-    {
-      "id": 20,
-      "type": "kennel-sm",
-      "label": "4 puppies",
-      "x": 1040,
-      "y": 300,
-      "w": 3,
-      "h": 4
-    },
-    {
-      "id": 10,
-      "type": "kennel-sm",
-      "label": "Dakota",
-      "x": 380,
-      "y": 300,
-      "w": 3,
-      "h": 4
-    },
-    {
-      "id": 32,
-      "type": "kennel-sm",
-      "label": "Barky puppies",
-      "x": 1040,
-      "y": 500,
-      "w": 5,
-      "h": 4
-    },
-    {
-      "id": 31,
-      "type": "kennel-sm",
-      "label": "Small puppies",
-      "x": 940,
-      "y": 500,
-      "w": 5,
-      "h": 4
-    },
-    {
-      "id": 77,
-      "type": "fence",
-      "label": "",
-      "x": 940,
-      "y": 480,
-      "w": 10,
-      "h": 1
-    },
-    {
-      "id": 26,
-      "type": "kennel-sm",
-      "label": "Girls puppies",
-      "x": 840,
-      "y": 440,
-      "w": 4,
-      "h": 4
-    },
-    {
-      "id": 78,
-      "type": "fence",
-      "label": "",
-      "x": 920,
-      "y": 400,
-      "w": 1,
-      "h": 6
-    },
-    {
-      "id": 79,
-      "type": "fence",
-      "label": "",
-      "x": 840,
-      "y": 520,
-      "w": 5,
-      "h": 1
-    },
-    {
-      "id": 46,
-      "type": "fence",
-      "label": "",
-      "x": 840,
-      "y": 560,
-      "w": 1,
-      "h": 13
-    },
-    {
-      "id": 52,
-      "type": "kennel-sm",
-      "label": "Felix",
-      "x": 1580,
-      "y": 480,
-      "w": 3,
-      "h": 3
-    },
-    {
-      "id": 51,
-      "type": "kennel-sm",
-      "label": "Brothers",
-      "x": 1520,
-      "y": 480,
-      "w": 3,
-      "h": 3
-    },
-    {
-      "id": 50,
-      "type": "kennel-sm",
-      "label": "Akita",
-      "x": 1460,
-      "y": 480,
-      "w": 3,
-      "h": 3
-    },
-    {
-      "id": 49,
-      "type": "kennel-sm",
-      "label": "Dina",
-      "x": 1400,
-      "y": 480,
-      "w": 3,
-      "h": 3
-    },
-    {
-      "id": 44,
-      "type": "fence",
-      "label": "",
-      "x": 1640,
-      "y": 480,
-      "w": 1,
-      "h": 9
-    },
-    {
-      "id": 42,
-      "type": "fence",
-      "label": "",
-      "x": 1340,
-      "y": 480,
-      "w": 1,
-      "h": 9
-    },
-    {
-      "id": 41,
-      "type": "fence",
-      "label": "",
-      "x": 1340,
-      "y": 460,
-      "w": 16,
-      "h": 1
-    },
-    {
-      "id": 43,
-      "type": "fence",
-      "label": "",
-      "x": 1440,
-      "y": 320,
-      "w": 1,
-      "h": 7
-    },
-    {
-      "id": 33,
-      "type": "storage",
-      "label": "Storage",
-      "x": 1260,
-      "y": 460,
-      "w": 3,
-      "h": 3,
-      "dogs": [],
-      "zoneNotes": ""
-    },
-    {
-      "id": 39,
-      "type": "custom",
-      "label": "Chickens",
-      "x": 1260,
-      "y": 400,
-      "w": 9,
-      "h": 3
-    },
-    {
-      "id": 29,
-      "type": "fence",
-      "label": "",
-      "x": 1160,
-      "y": 360,
-      "w": 1,
-      "h": 15
-    },
-    {
-      "id": 45,
-      "type": "vet",
-      "label": "Monica's",
-      "x": 1120,
-      "y": 680,
-      "w": 6,
-      "h": 2
-    },
-    {
-      "id": 70,
-      "type": "fence",
-      "label": "",
-      "x": 1040,
-      "y": 700,
-      "w": 4,
-      "h": 1
-    },
-    {
-      "id": 71,
-      "type": "fence",
-      "label": "",
-      "x": 1040,
-      "y": 720,
-      "w": 1,
-      "h": 5
-    },
-    {
-      "id": 66,
-      "type": "kennel-sm",
-      "label": "4 puppies",
-      "x": 1060,
-      "y": 720,
-      "w": 3,
-      "h": 9
-    },
-    {
-      "id": 65,
-      "type": "kennel-sm",
-      "label": "Olivia",
-      "x": 1120,
-      "y": 720,
-      "w": 3,
-      "h": 9
-    },
-    {
-      "id": 47,
-      "type": "vet",
-      "label": "House",
-      "x": 1180,
-      "y": 720,
-      "w": 6,
-      "h": 6
-    },
-    {
-      "id": 64,
-      "type": "kennel-sm",
-      "label": "10 puppies",
-      "x": 1180,
-      "y": 840,
-      "w": 5,
-      "h": 3
-    },
-    {
-      "id": 58,
-      "type": "fence",
-      "label": "",
-      "x": 1280,
-      "y": 840,
-      "w": 1,
-      "h": 2
-    },
-    {
-      "id": 53,
-      "type": "fence",
-      "label": "",
-      "x": 1340,
-      "y": 680,
-      "w": 1,
-      "h": 8
-    },
-    {
-      "id": 72,
-      "type": "open",
-      "label": "Ozo",
-      "x": 1360,
-      "y": 680,
-      "w": 14,
-      "h": 8
-    },
-    {
-      "id": 55,
-      "type": "fence",
-      "label": "",
-      "x": 1640,
-      "y": 680,
-      "w": 1,
-      "h": 8
-    },
-    {
-      "id": 54,
-      "type": "fence",
-      "label": "",
-      "x": 1320,
-      "y": 840,
-      "w": 17,
-      "h": 1
-    },
-    {
-      "id": 67,
-      "type": "fence",
-      "label": "",
-      "x": 1040,
-      "y": 840,
-      "w": 1,
-      "h": 3
-    },
-    {
-      "id": 57,
-      "type": "fence",
-      "label": "",
-      "x": 1040,
-      "y": 900,
-      "w": 31,
-      "h": 1
-    },
-    {
-      "id": 56,
-      "type": "fence",
-      "label": "",
-      "x": 1640,
-      "y": 880,
-      "w": 1,
-      "h": 1
-    },
-    {
-      "id": 62,
-      "type": "storage",
-      "label": "Shy puppies",
-      "x": 1200,
-      "y": 400,
-      "w": 3,
-      "h": 4,
-      "dogs": [],
-      "zoneNotes": ""
-    },
-    {
-      "id": 73,
-      "type": "open",
-      "label": "Peps",
-      "x": 1360,
-      "y": 540,
-      "w": 14,
-      "h": 6,
-      "dogs": [],
-      "zoneNotes": ""
-    },
-    {
-      "id": 81,
-      "type": "open",
-      "label": "Open area",
-      "x": 1180,
-      "y": 520,
-      "w": 8,
-      "h": 8,
-      "dogs": [],
-      "zoneNotes": ""
-    }
-  ],
-  "boundary": [
-    {
-      "x": 362.5840197200876,
-      "y": 285.3132557093245
-    },
-    {
-      "x": 1166.0700638277167,
-      "y": 292.639876172312
-    },
-    {
-      "x": 1163.627857006721,
-      "y": 326.83077166625367
-    },
-    {
-      "x": 1449.3660550632333,
-      "y": 326.83077166625367
-    },
-    {
-      "x": 1449.3660550632333,
-      "y": 461.1521468210245
-    },
-    {
-      "x": 1656.9536348478791,
-      "y": 468.47876728401195
-    },
-    {
-      "x": 1654.5114280268833,
-      "y": 903.1915814212703
-    },
-    {
-      "x": 1046.4019295989208,
-      "y": 903.1915814212703
-    },
-    {
-      "x": 1046.4019295989208,
-      "y": 839.6942040753786
-    },
-    {
-      "x": 428.5236038869751,
-      "y": 829.9253767913953
-    },
-    {
-      "x": 426.0813970659793,
-      "y": 710.2572425625995
-    },
-    {
-      "x": 365.0262265410834,
-      "y": 712.6994493835953
-    }
-  ],
-  "pwHashes": {
-    "editor": "4da08eded9c261ac79afe13ca1c4a449e3b5c1ff454176a003d62d3e6268fb17",
-    "master": "7a3df86a086bc4c26ead56a197be9c8012c6f53c804fac8b78715559aa78316a"
-  }
+// ── FIREBASE ──
+const firebaseConfig = {
+  apiKey: "AIzaSyBIYOLl4VkNeef5-X3JkbJSVFUZbeWYXSA",
+  authDomain: "monica-shelter-86450.firebaseapp.com",
+  projectId: "monica-shelter-86450",
+  storageBucket: "monica-shelter-86450.firebasestorage.app",
+  messagingSenderId: "529897107470",
+  appId: "1:529897107470:web:6ec81cd82089155ae58c5f"
 };
-
-const LS_KEY = 'monica-shelter-data';
-const LS_VER_KEY = 'monica-shelter-version';
+const fbApp = initializeApp(firebaseConfig);
+const db = getFirestore(fbApp);
+const DATA_REF = doc(db, 'shelter', 'data');
 
 // ── HASHING ──
 async function sha256(str){
-  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
   return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
 }
-async function hashPw(pw){return sha256('monica-shelter-v1:'+pw);}
+async function hashPw(pw){ return sha256('monica-shelter-v1:' + pw); }
 
-// ── STATE ──
-const G=20,CW=2000,CH=1400;
-const cv=document.getElementById('cv');
-const cx=cv.getContext('2d');
-const cw=document.getElementById('canvas-wrap');
+// ── CANVAS & STATE ──
+const G=20, CW=2000, CH=1400;
+const canvas = document.getElementById('cv');
+const ctx = canvas.getContext('2d');
+const canvasWrap = document.getElementById('canvas-wrap');
 
-let sc=1,panX=0,panY=0;
-let zones=[],boundary=[],pwHashes={editor:'',master:''};
-let dataVersion=1;
-let mode='select',sel=null,drag=null,ghost=null,idc=1;
-let panning=false,panStart=null;
-let authLevel='read',pendingLevel=null,currentZone=null;
-let drawingBoundary=false,boundaryDraft=[],boundaryMousePos=null;
+let sc=1, panX=0, panY=0;
+let zones=[], boundary=[], pwHashes={editor:'',master:''};
+let mode='select', sel=null, drag=null, ghost=null, idc=1;
+let isPanning=false, panStart=null;
+let authLevel='read', pendingLevel=null, currentZone=null;
+let drawingBoundary=false, boundaryDraft=[], boundaryMouse=null;
+let saveTimer=null, ignoreSnapshot=false;
+let renameTarget=null;
 
 const ZT={
   'kennel-sm':{label:'Small kennel',w:3,h:3,f:'#3a7bbf',s:'#1a4a80',t:'#e8f0fa'},
@@ -916,470 +270,674 @@ const ZT={
   'fence':{label:'',w:8,h:1,f:'#2a2a2a',s:'#000',t:'#fff'},
   'custom':{label:'Zone',w:4,h:4,f:'#e8e0a0',s:'#908820',t:'#303000'},
 };
-const CLICKABLE=['kennel-sm','kennel-md','kennel-lg','open','storage','vet','custom'];
+const CLICKABLE = ['kennel-sm','kennel-md','kennel-lg','open','storage','vet','custom'];
 
-// ── PERSISTENCE ──
-function saveLocal(){
-  const data={version:dataVersion,zones,boundary,pwHashes};
-  try{localStorage.setItem(LS_KEY,JSON.stringify(data));localStorage.setItem(LS_VER_KEY,String(dataVersion));}
-  catch(e){console.warn('localStorage save failed',e);}
+// ── HELPERS ──
+function $(id){ return document.getElementById(id); }
+function openModal(id){ $(id).classList.add('open'); }
+function closeModal(id){ $(id).classList.remove('open'); }
+function setHint(txt){ $('hint').textContent = txt; }
+function syncDot(state, txt){ $('sync-dot').className=state; $('sync-txt').textContent=txt; }
+
+function sw(sx,sy){ return {x:(sx-panX)/sc, y:(sy-panY)/sc}; }
+function snap(v){ return Math.round(v/G)*G; }
+function zlbl(){ $('zoom-lbl').textContent = Math.round(sc*100)+'%'; }
+
+function getPos(e){
+  const r = canvas.getBoundingClientRect();
+  const cl = e.touches ? e.touches[0] : e;
+  return {sx: cl.clientX-r.left, sy: cl.clientY-r.top};
 }
 
-function loadData(){
-  // 1. Try localStorage first
-  try{
-    const raw=localStorage.getItem(LS_KEY);
-    if(raw){
-      const d=JSON.parse(raw);
-      applyData(d);
-      // 2. Check if embedded version (from GitHub) is newer
-      if(EMBEDDED.version > (d.version||1)){
-        showUpdateBanner();
-      }
-      return;
+function hdls(z){
+  return [
+    {id:'br',x:z.x+z.w*G,y:z.y+z.h*G},{id:'bl',x:z.x,y:z.y+z.h*G},
+    {id:'tr',x:z.x+z.w*G,y:z.y},{id:'tl',x:z.x,y:z.y}
+  ];
+}
+function hitHandle(z,wx,wy){
+  const th=8/sc;
+  for(const h of hdls(z)) if(Math.abs(wx-h.x)<th && Math.abs(wy-h.y)<th) return h.id;
+  return null;
+}
+function hitZone(wx,wy){
+  for(let i=zones.length-1;i>=0;i--){
+    const z=zones[i];
+    if(wx>=z.x && wx<=z.x+z.w*G && wy>=z.y && wy<=z.y+z.h*G) return z;
+  }
+  return null;
+}
+function overlaps(a,b){
+  const ax2=a.x+a.w*G, ay2=a.y+a.h*G, bx2=b.x+b.w*G, by2=b.y+b.h*G;
+  return Math.max(0,Math.min(ax2,bx2)-Math.max(a.x,b.x))>G*0.5
+      && Math.max(0,Math.min(ay2,by2)-Math.max(a.y,b.y))>G*0.5;
+}
+function fuseGroup(grp){
+  let mx=Infinity,my=Infinity,MX=-Infinity,MY=-Infinity;
+  grp.forEach(z=>{mx=Math.min(mx,z.x);my=Math.min(my,z.y);MX=Math.max(MX,z.x+z.w*G);MY=Math.max(MY,z.y+z.h*G);});
+  return {x:mx,y:my,w:Math.round((MX-mx)/G),h:Math.round((MY-my)/G)};
+}
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function gdUrl(url){
+  if(!url) return url;
+  const m = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  return m ? `https://drive.google.com/thumbnail?id=${m[1]}&sz=w400` : url;
+}
+
+// ── FIREBASE ──
+async function loadFromFirebase(){
+  setLoad('Connecting…', 20);
+  try {
+    const snap = await getDoc(DATA_REF);
+    if(snap.exists()){
+      applyData(snap.data());
+      setLoad('Map loaded!', 100);
+    } else {
+      setLoad('First setup…', 60);
+      pwHashes.editor = await hashPw('shelter2024');
+      pwHashes.master = await hashPw('monica-master');
+      await saveToFirebase();
+      setLoad('Ready!', 100);
     }
-  }catch(e){}
-  // 3. Fall back to embedded data (first visit)
-  applyData(EMBEDDED);
-  // Init default hashes if embedded has none
-  if(!pwHashes.editor||!pwHashes.master){
-    initDefaultHashes();
+    setTimeout(hideLoad, 600);
+    syncDot('ok','Synced');
+    onSnapshot(DATA_REF, snap=>{
+      if(ignoreSnapshot) return;
+      if(snap.exists()){ applyData(snap.data()); draw(); syncDot('ok','Synced'); }
+    });
+  } catch(e) {
+    setLoad('Connection failed — check console', 100);
+    syncDot('err','Offline');
+    setTimeout(hideLoad, 2500);
+    console.error('Firebase error:', e);
   }
 }
 
-async function initDefaultHashes(){
-  if(!pwHashes.editor) pwHashes.editor=await hashPw('shelter2024');
-  if(!pwHashes.master) pwHashes.master=await hashPw('monica-master');
-  saveLocal();
-}
-
 function applyData(d){
-  zones=d.zones||[];
-  boundary=d.boundary||[];
-  pwHashes=d.pwHashes||{editor:'',master:''};
-  dataVersion=d.version||1;
-  idc=zones.reduce((m,z)=>Math.max(m,(z.id||0)+1),1);
-  if(!pwHashes.editor||!pwHashes.master) initDefaultHashes();
+  zones = d.zones || [];
+  boundary = d.boundary || [];
+  pwHashes = d.pwHashes || {editor:'',master:''};
+  idc = zones.reduce((m,z)=>Math.max(m,(z.id||0)+1), 1);
 }
 
-function showUpdateBanner(){
-  document.getElementById('update-banner').style.display='flex';
+function scheduleSave(){
+  syncDot('saving','Saving…');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveToFirebase, 1500);
 }
 
-function applyUpdate(){
-  // Wipe localStorage and reload — browser will re-read embedded data
-  try{localStorage.removeItem(LS_KEY);localStorage.removeItem(LS_VER_KEY);}catch(e){}
-  location.reload();
+async function saveToFirebase(){
+  ignoreSnapshot = true;
+  try {
+    await setDoc(DATA_REF, {zones, boundary, pwHashes});
+    syncDot('ok','Saved');
+  } catch(e) {
+    syncDot('err','Save failed');
+    console.error('Save error:', e);
+  }
+  setTimeout(()=>{ ignoreSnapshot=false; }, 600);
 }
 
-// ── INIT ──
-function ini(){
-  const r=cw.getBoundingClientRect();
-  cv.width=r.width;cv.height=r.height;
-  sc=Math.min(r.width/CW,r.height/CH)*0.93;
-  panX=(r.width-CW*sc)/2;panY=(r.height-CH*sc)/2;
-  zlbl();draw();
+function setLoad(msg, pct){
+  $('loading-msg').textContent = msg;
+  $('loading-fill').style.width = pct+'%';
 }
-function zlbl(){document.getElementById('zoom-lbl').textContent=Math.round(sc*100)+'%';}
-function zoom(d,cx2,cy2){
-  const r=cw.getBoundingClientRect();
-  cx2=cx2??r.width/2;cy2=cy2??r.height/2;
-  const p=sc;sc=Math.max(0.1,Math.min(6,sc+d));
-  panX=cx2-(cx2-panX)*(sc/p);panY=cy2-(cy2-panY)*(sc/p);
-  zlbl();draw();
+function hideLoad(){
+  const ls = $('loading-screen');
+  ls.style.transition = 'opacity .4s';
+  ls.style.opacity = '0';
+  setTimeout(()=>{ ls.style.display='none'; }, 400);
 }
+
+// ── DRAW ──
+function initCanvas(){
+  const r = canvasWrap.getBoundingClientRect();
+  canvas.width = r.width; canvas.height = r.height;
+  sc = Math.min(r.width/CW, r.height/CH)*0.93;
+  panX = (r.width-CW*sc)/2; panY = (r.height-CH*sc)/2;
+  zlbl(); draw();
+}
+
+function zoomBy(delta, cx2, cy2){
+  const r = canvasWrap.getBoundingClientRect();
+  cx2 = cx2 ?? r.width/2; cy2 = cy2 ?? r.height/2;
+  const prev = sc;
+  sc = Math.max(0.1, Math.min(6, sc+delta));
+  panX = cx2-(cx2-panX)*(sc/prev);
+  panY = cy2-(cy2-panY)*(sc/prev);
+  zlbl(); draw();
+}
+
 function resetView(){
-  const r=cw.getBoundingClientRect();
-  sc=Math.min(r.width/CW,r.height/CH)*0.93;
-  panX=(r.width-CW*sc)/2;panY=(r.height-CH*sc)/2;
-  zlbl();draw();
+  const r = canvasWrap.getBoundingClientRect();
+  sc = Math.min(r.width/CW, r.height/CH)*0.93;
+  panX = (r.width-CW*sc)/2; panY = (r.height-CH*sc)/2;
+  zlbl(); draw();
 }
-function sw(sx,sy){return{x:(sx-panX)/sc,y:(sy-panY)/sc};}
-function sn(v){return Math.round(v/G)*G;}
+
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.save();
+  ctx.translate(panX,panY); ctx.scale(sc,sc);
+
+  // Outside colour
+  ctx.fillStyle = '#9e9282'; ctx.fillRect(0,0,CW,CH);
+
+  // Inside boundary = green
+  if(boundary.length >= 3){
+    ctx.save();
+    ctx.beginPath();
+    boundary.forEach((p,i)=> i===0 ? ctx.moveTo(p.x,p.y) : ctx.lineTo(p.x,p.y));
+    ctx.closePath(); ctx.fillStyle='#4a7c3f'; ctx.fill();
+    ctx.restore();
+  } else {
+    ctx.fillStyle = '#4a7c3f'; ctx.fillRect(0,0,CW,CH);
+  }
+
+  // Grid
+  ctx.strokeStyle='rgba(0,0,0,0.06)'; ctx.lineWidth=0.5/sc;
+  for(let x=0;x<=CW;x+=G){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,CH); ctx.stroke(); }
+  for(let y=0;y<=CH;y+=G){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(CW,y); ctx.stroke(); }
+
+  // Fuse overlapping fence/lg/custom zones visually
+  const fusable=['fence','kennel-lg','custom'], fused=new Set(), fusedZones=[];
+  zones.forEach((z,i)=>{
+    if(!fusable.includes(z.type)||fused.has(i)) return;
+    const grp=[z], gi=[i];
+    zones.forEach((z2,j)=>{ if(i!==j&&!fused.has(j)&&z2.type===z.type&&overlaps(z,z2)){ grp.push(z2); gi.push(j); }});
+    if(grp.length>1){ gi.forEach(idx=>fused.add(idx)); fusedZones.push({...fuseGroup(grp),type:z.type,label:z.label}); }
+  });
+  zones.forEach((z,i)=>{ if(!fused.has(i)) drawZone(z, z===sel); });
+  fusedZones.forEach(z=> drawZone(z, false));
+
+  // Ghost preview
+  if(ghost && mode!=='select' && !drawingBoundary){
+    const t = ZT[mode]||ZT.custom;
+    ctx.save(); ctx.globalAlpha=0.4; ctx.fillStyle=t.f; ctx.strokeStyle=t.s;
+    ctx.lineWidth=1/sc; ctx.setLineDash([4/sc,3/sc]);
+    rrect(ghost.x,ghost.y,t.w*G,t.h*G,4/sc); ctx.fill(); ctx.stroke();
+    ctx.restore();
+  }
+
+  // Saved boundary outline
+  if(boundary.length>=2){
+    ctx.save(); ctx.strokeStyle='rgba(255,220,80,0.8)'; ctx.lineWidth=2/sc; ctx.setLineDash([6/sc,4/sc]);
+    ctx.beginPath(); boundary.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));
+    ctx.closePath(); ctx.stroke(); ctx.setLineDash([]); ctx.restore();
+  }
+
+  // Boundary being drawn
+  if(drawingBoundary && boundaryDraft.length>0){
+    ctx.save(); ctx.strokeStyle='#4af'; ctx.lineWidth=2/sc; ctx.setLineDash([5/sc,3/sc]);
+    ctx.beginPath(); boundaryDraft.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));
+    if(boundaryMouse) ctx.lineTo(boundaryMouse.x, boundaryMouse.y);
+    ctx.stroke(); ctx.setLineDash([]);
+    boundaryDraft.forEach((p,i)=>{
+      ctx.fillStyle = i===0 ? '#ff0' : '#4af';
+      ctx.beginPath(); ctx.arc(p.x,p.y,5/sc,0,Math.PI*2); ctx.fill();
+    });
+    ctx.restore();
+  }
+
+  ctx.restore();
+}
+
+function drawZone(z, isSel){
+  const t = ZT[z.type]||ZT.custom;
+  const pw=z.w*G, ph=z.h*G, lw=1/sc;
+  ctx.save();
+
+  if(z.type==='fence'){
+    ctx.fillStyle=t.f; ctx.strokeStyle=t.s; ctx.lineWidth=1.5/sc;
+    rrect(z.x,z.y,pw,ph,2/sc); ctx.fill(); ctx.stroke();
+    ctx.strokeStyle='rgba(255,255,255,0.18)'; ctx.lineWidth=0.5/sc;
+    if(pw>=ph){ for(let x=z.x+8;x<z.x+pw-4;x+=14){ ctx.beginPath(); ctx.moveTo(x,z.y+1); ctx.lineTo(x,z.y+ph-1); ctx.stroke(); }}
+    else { for(let y=z.y+8;y<z.y+ph-4;y+=14){ ctx.beginPath(); ctx.moveTo(z.x+1,y); ctx.lineTo(z.x+pw-1,y); ctx.stroke(); }}
+  } else {
+    ctx.fillStyle=t.f; ctx.strokeStyle=t.s;
+    ctx.lineWidth = isSel&&authLevel==='master' ? 2/sc : lw;
+    rrect(z.x+lw,z.y+lw,pw-2*lw,ph-2*lw,4/sc); ctx.fill(); ctx.stroke();
+  }
+
+  if(isSel && authLevel==='master'){
+    ctx.strokeStyle='#fff'; ctx.lineWidth=1.5/sc; ctx.setLineDash([4/sc,3/sc]);
+    rrect(z.x+lw,z.y+lw,pw-2*lw,ph-2*lw,4/sc); ctx.stroke(); ctx.setLineDash([]);
+    hdls(z).forEach(h=>{ ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(h.x,h.y,5/sc,0,Math.PI*2); ctx.fill(); });
+  }
+
+  if(z.type!=='fence' && z.type!=='kennel-lg'){
+    const lb = z.label || (t.label) || '';
+    if(lb){
+      ctx.fillStyle=t.t;
+      const fs = Math.min(13,Math.max(7,ph/3.5))/sc;
+      ctx.font=`600 ${fs}px system-ui,sans-serif`; ctx.textAlign='center'; ctx.textBaseline='middle';
+      const maxW=pw-6; const words=lb.split(' '); let lines=[], cur='';
+      words.forEach(w=>{ const test=cur?cur+' '+w:w; if(ctx.measureText(test).width>maxW&&cur){lines.push(cur);cur=w;}else cur=test; });
+      if(cur) lines.push(cur);
+      const lh=fs*1.3, startY=z.y+ph/2-(lines.length*lh)/2+lh/2;
+      lines.forEach((l,i)=>ctx.fillText(l,z.x+pw/2,startY+i*lh));
+    }
+  }
+
+  // Indicator dot: yellow if has data, dim white if empty
+  if(CLICKABLE.includes(z.type)){
+    const hasData = (z.dogs&&z.dogs.length>0)||(z.zoneNotes&&z.zoneNotes.trim());
+    ctx.fillStyle = hasData ? 'rgba(255,255,160,0.8)' : 'rgba(255,255,255,0.2)';
+    ctx.beginPath(); ctx.arc(z.x+pw-6/sc, z.y+6/sc, 3/sc, 0, Math.PI*2); ctx.fill();
+  }
+  ctx.restore();
+}
+
+function rrect(x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath();
+}
 
 // ── MODE ──
-function M(m){
-  if(drawingBoundary)return;
-  mode=m;
-  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
-  if(m==='select')document.getElementById('bsel').classList.add('on');
-  ghost=null;draw();
-  const h=document.getElementById('hint');
-  if(m==='select')h.textContent='Tap any zone to see info · Scroll to zoom · Ctrl+drag to pan';
-  else h.textContent=`Placing ${(ZT[m]||ZT.custom).label||m} — click canvas`;
+function setMode(m){
+  if(drawingBoundary) return;
+  mode = m;
+  document.querySelectorAll('.tb[data-mode]').forEach(b=>b.classList.remove('on'));
+  const btn = document.querySelector(`.tb[data-mode="${m}"]`);
+  if(btn) btn.classList.add('on');
+  ghost = null; draw();
+  setHint(m==='select'
+    ? 'Tap any zone to see info · Scroll to zoom · Ctrl+drag to pan'
+    : `Placing ${(ZT[m]||ZT.custom).label||m} — click canvas`);
 }
 
 // ── BOUNDARY ──
 function startBoundary(){
-  drawingBoundary=true;boundaryDraft=[];
-  document.getElementById('boundary-hint').style.display='flex';
-  document.getElementById('hint').style.display='none';
-  document.getElementById('btn-boundary').classList.add('on');
-  cv.style.cursor='crosshair';draw();
+  drawingBoundary=true; boundaryDraft=[];
+  $('boundary-hint').style.display='flex';
+  $('hint').style.display='none';
+  $('btn-boundary').classList.add('on');
+  canvas.style.cursor='crosshair'; draw();
 }
 function cancelBoundary(){
-  drawingBoundary=false;boundaryDraft=[];boundaryMousePos=null;
-  document.getElementById('boundary-hint').style.display='none';
-  document.getElementById('hint').style.display='block';
-  document.getElementById('btn-boundary').classList.remove('on');
-  cv.style.cursor='default';draw();
+  drawingBoundary=false; boundaryDraft=[]; boundaryMouse=null;
+  $('boundary-hint').style.display='none';
+  $('hint').style.display='block';
+  $('btn-boundary').classList.remove('on');
+  canvas.style.cursor='default'; draw();
 }
-function clearBoundary(){boundary=[];saveLocal();draw();}
+function clearBoundary(){ boundary=[]; scheduleSave(); draw(); }
 function closeBoundaryDraft(){
-  if(boundaryDraft.length>=3){boundary=[...boundaryDraft];saveLocal();}
+  if(boundaryDraft.length>=3){ boundary=[...boundaryDraft]; scheduleSave(); }
   cancelBoundary();
 }
 
-// ── DRAW ──
-function draw(){
-  cx.clearRect(0,0,cv.width,cv.height);
-  cx.save();cx.translate(panX,panY);cx.scale(sc,sc);
-  // Outside colour
-  cx.fillStyle='#9e9282';cx.fillRect(0,0,CW,CH);
-  // Inside boundary = green
-  if(boundary.length>=3){
-    cx.save();
-    cx.beginPath();boundary.forEach((p,i)=>i===0?cx.moveTo(p.x,p.y):cx.lineTo(p.x,p.y));cx.closePath();
-    cx.fillStyle='#4a7c3f';cx.fill();cx.restore();
-  } else {
-    cx.fillStyle='#4a7c3f';cx.fillRect(0,0,CW,CH);
-  }
-  // Grid
-  cx.strokeStyle='rgba(0,0,0,0.06)';cx.lineWidth=0.5/sc;
-  for(let x=0;x<=CW;x+=G){cx.beginPath();cx.moveTo(x,0);cx.lineTo(x,CH);cx.stroke();}
-  for(let y=0;y<=CH;y+=G){cx.beginPath();cx.moveTo(0,y);cx.lineTo(CW,y);cx.stroke();}
-  // Zones
-  const fu=['fence','kennel-lg','custom'],fd=new Set(),df=[];
-  zones.forEach((z,i)=>{
-    if(!fu.includes(z.type)||fd.has(i))return;
-    const grp=[z],gi=[i];
-    zones.forEach((z2,j)=>{if(i!==j&&!fd.has(j)&&z2.type===z.type&&overlaps(z,z2)){grp.push(z2);gi.push(j);}});
-    if(grp.length>1){gi.forEach(idx=>fd.add(idx));df.push({...fuseGrp(grp),type:z.type,label:z.label});}
-  });
-  zones.forEach((z,i)=>{if(!fd.has(i))dz(z,z===sel);});
-  df.forEach(z=>dz(z,false));
-  // Ghost
-  if(ghost&&mode!=='select'&&!drawingBoundary){
-    const t=ZT[mode]||ZT.custom;
-    cx.save();cx.globalAlpha=0.4;cx.fillStyle=t.f;cx.strokeStyle=t.s;cx.lineWidth=1/sc;cx.setLineDash([4/sc,3/sc]);
-    rr(ghost.x,ghost.y,t.w*G,t.h*G,4/sc);cx.fill();cx.stroke();cx.restore();
-  }
-  // Saved boundary outline
-  if(boundary.length>=2){
-    cx.save();cx.strokeStyle='rgba(255,220,80,0.8)';cx.lineWidth=2/sc;cx.setLineDash([6/sc,4/sc]);
-    cx.beginPath();boundary.forEach((p,i)=>i===0?cx.moveTo(p.x,p.y):cx.lineTo(p.x,p.y));cx.closePath();
-    cx.stroke();cx.setLineDash([]);cx.restore();
-  }
-  // Draft boundary
-  if(drawingBoundary&&boundaryDraft.length>0){
-    cx.save();cx.strokeStyle='#4af';cx.lineWidth=2/sc;cx.setLineDash([5/sc,3/sc]);
-    cx.beginPath();boundaryDraft.forEach((p,i)=>i===0?cx.moveTo(p.x,p.y):cx.lineTo(p.x,p.y));
-    if(boundaryMousePos)cx.lineTo(boundaryMousePos.x,boundaryMousePos.y);
-    cx.stroke();cx.setLineDash([]);
-    boundaryDraft.forEach((p,i)=>{cx.fillStyle=i===0?'#ff0':'#4af';cx.beginPath();cx.arc(p.x,p.y,5/sc,0,Math.PI*2);cx.fill();});
-    cx.restore();
-  }
-  cx.restore();
+// ── AUTH ──
+function openAuthMenu(){
+  if(authLevel!=='read'){ doLogout(); return; }
+  openModal('auth-level-modal');
 }
 
-function dz(z,isSel){
-  const t=ZT[z.type]||ZT.custom;
-  const pw=z.w*G,ph=z.h*G,lw=1/sc;
-  cx.save();
-  if(z.type==='fence'){
-    cx.fillStyle=t.f;cx.strokeStyle=t.s;cx.lineWidth=1.5/sc;
-    rr(z.x,z.y,pw,ph,2/sc);cx.fill();cx.stroke();
-    cx.strokeStyle='rgba(255,255,255,0.18)';cx.lineWidth=0.5/sc;
-    if(pw>=ph){for(let x=z.x+8;x<z.x+pw-4;x+=14){cx.beginPath();cx.moveTo(x,z.y+1);cx.lineTo(x,z.y+ph-1);cx.stroke();}}
-    else{for(let y=z.y+8;y<z.y+ph-4;y+=14){cx.beginPath();cx.moveTo(z.x+1,y);cx.lineTo(z.x+pw-1,y);cx.stroke();}}
+function doLogout(){
+  authLevel='read';
+  $('mode-badge').textContent='READ ONLY'; $('mode-badge').className='';
+  $('auth-btn').textContent='🔒 Log in';
+  $('master-toolbar').classList.remove('visible');
+  $('rename-bar').style.display='none';
+  if(drawingBoundary) cancelBoundary();
+  sel=null; setMode('select'); draw();
+  setHint('Tap any zone to see info · Scroll to zoom · Ctrl+drag to pan');
+}
+
+function pickLevel(level){
+  pendingLevel=level;
+  closeModal('auth-level-modal');
+  $('pw-modal-title').textContent = level==='master' ? '⚙️ Master access' : '✏️ Editor access';
+  $('pw-modal-sub').textContent = level==='master' ? 'Full map and data editing' : 'Edit kennel and dog info only';
+  $('pw-input').value=''; $('pw-err').textContent='';
+  openModal('pw-modal');
+  setTimeout(()=>$('pw-input').focus(), 100);
+}
+
+async function checkPassword(){
+  const v = $('pw-input').value;
+  if(!v){ $('pw-err').textContent='Please enter a password.'; return; }
+  const h = await hashPw(v);
+  const correct = pendingLevel==='master' ? pwHashes.master : pwHashes.editor;
+  if(h===correct){
+    closeModal('pw-modal');
+    enterLevel(pendingLevel);
   } else {
-    cx.fillStyle=t.f;cx.strokeStyle=t.s;cx.lineWidth=isSel&&authLevel==='master'?2/sc:lw;
-    rr(z.x+lw,z.y+lw,pw-2*lw,ph-2*lw,4/sc);cx.fill();cx.stroke();
+    $('pw-err').textContent='Incorrect password.';
+    $('pw-input').select();
   }
-  if(isSel&&authLevel==='master'){
-    cx.strokeStyle='#fff';cx.lineWidth=1.5/sc;cx.setLineDash([4/sc,3/sc]);
-    rr(z.x+lw,z.y+lw,pw-2*lw,ph-2*lw,4/sc);cx.stroke();cx.setLineDash([]);
-    hdls(z).forEach(h=>{cx.fillStyle='#fff';cx.beginPath();cx.arc(h.x,h.y,5/sc,0,Math.PI*2);cx.fill();});
+}
+
+function enterLevel(level){
+  authLevel=level;
+  if(level==='master'){
+    $('mode-badge').textContent='MASTER'; $('mode-badge').className='master';
+    $('auth-btn').textContent='🔓 Log out';
+    $('master-toolbar').classList.add('visible');
+    setHint('Master: drag to move · dbl-click to rename · click zone to edit info');
+  } else {
+    $('mode-badge').textContent='EDITOR'; $('mode-badge').className='editor';
+    $('auth-btn').textContent='🔓 Log out';
+    setHint('Editor: tap any zone to edit its info and dogs');
   }
-  if(z.type!=='fence'&&z.type!=='kennel-lg'){
-    const lb=z.label||(t.label)||'';
-    if(lb){
-      cx.fillStyle=t.t;const fs=Math.min(13,Math.max(7,ph/3.5))/sc;
-      cx.font=`600 ${fs}px system-ui,sans-serif`;cx.textAlign='center';cx.textBaseline='middle';
-      const mw=pw-6,wds=lb.split(' ');let lines=[],cur='';
-      wds.forEach(w=>{const ts=cur?cur+' '+w:w;if(cx.measureText(ts).width>mw&&cur){lines.push(cur);cur=w;}else cur=ts;});
-      if(cur)lines.push(cur);
-      const lh=fs*1.3,sy2=z.y+ph/2-(lines.length*lh)/2+lh/2;
-      lines.forEach((l,i)=>cx.fillText(l,z.x+pw/2,sy2+i*lh));
+  setMode('select'); draw();
+}
+
+async function applyChangePw(){
+  const ep = $('new-editor-pw').value.trim();
+  const mp = $('new-master-pw').value.trim();
+  if(!ep&&!mp){ $('changepw-err').textContent='Enter at least one new password.'; return; }
+  if(ep) pwHashes.editor = await hashPw(ep);
+  if(mp) pwHashes.master = await hashPw(mp);
+  await saveToFirebase();
+  closeModal('changepw-modal');
+}
+
+// ── RENAME ──
+function openRename(z){
+  renameTarget=z;
+  $('rename-bar').style.display='flex';
+  const ri=$('ri'); ri.value=z.label||(ZT[z.type]||ZT.custom).label||'';
+  ri.focus(); ri.select();
+}
+function applyRename(){
+  if(!renameTarget) return;
+  renameTarget.label=$('ri').value;
+  renameTarget=null; $('rename-bar').style.display='none';
+  scheduleSave(); draw();
+}
+function cancelRename(){ renameTarget=null; $('rename-bar').style.display='none'; }
+
+// ── CARD ──
+function openCard(z){
+  currentZone=z;
+  if(!z.dogs) z.dogs=[];
+  if(z.zoneNotes===undefined) z.zoneNotes='';
+  $('card-title').textContent = z.label||(ZT[z.type]||ZT.custom).label||'Zone';
+  const dc=z.dogs.length;
+  $('card-subtitle').textContent = dc===0 ? 'No dogs recorded' : `${dc} dog${dc>1?'s':''}`;
+  const body=$('card-body');
+  if(authLevel==='read') renderReadCard(z,body);
+  else renderEditCard(z,body);
+  openModal('overlay');
+}
+
+function closeCard(){
+  closeModal('overlay');
+  currentZone=null;
+}
+
+function renderReadCard(z,body){
+  let html='<div class="zone-notes-section"><div class="zone-notes-label">Zone notes</div>';
+  if(z.zoneNotes&&z.zoneNotes.trim()) html+=`<div class="zone-notes-read">${esc(z.zoneNotes)}</div>`;
+  else html+=`<div class="zone-notes-read empty">No notes for this zone.</div>`;
+  html+='</div>';
+  const dogs=z.dogs||[];
+  if(dogs.length===0){ html+=`<div class="empty-msg"><div class="ico">🐕</div>No dog info recorded yet.</div>`; body.innerHTML=html; return; }
+  dogs.forEach(d=>{
+    html+=`<div class="dog-entry"><div class="dog-name-read">${esc(d.name||'(unnamed)')}</div>`;
+    if((d.photos||[]).length>0){
+      html+=`<div class="dog-photos">`;
+      d.photos.filter(p=>p).forEach(p=>{ html+=`<img class="dog-photo" src="${gdUrl(p)}" alt="" onerror="this.style.display='none'">`; });
+      html+=`</div>`;
     }
+    if(d.notes&&d.notes.trim()) html+=`<div class="dog-notes-read">${esc(d.notes)}</div>`;
+    html+=`</div>`;
+  });
+  body.innerHTML=html;
+  // Attach lightbox clicks after setting innerHTML
+  body.querySelectorAll('.dog-photo').forEach(img=>{
+    img.addEventListener('click',()=>{ $('lightbox-img').src=img.src; $('lightbox').classList.add('open'); });
+  });
+}
+
+function renderEditCard(z,body){
+  body.innerHTML='';
+  const zns=document.createElement('div'); zns.className='zone-notes-section';
+  const zta=document.createElement('textarea'); zta.className='zone-notes-edit'; zta.id='zone-notes-ta';
+  zta.rows=3; zta.placeholder='General notes about this zone…'; zta.value=z.zoneNotes||'';
+  const zlbl2=document.createElement('div'); zlbl2.className='zone-notes-label'; zlbl2.textContent='Zone notes (free text)';
+  zns.appendChild(zlbl2); zns.appendChild(zta); body.appendChild(zns);
+
+  const dogsWrap=document.createElement('div'); dogsWrap.id='dogs-wrap'; body.appendChild(dogsWrap);
+  z.dogs.forEach((d,i)=>dogsWrap.appendChild(makeDogEdit(d,i)));
+
+  const addBtn=document.createElement('button'); addBtn.className='add-dog-btn'; addBtn.textContent='+ Add a dog';
+  addBtn.addEventListener('click',()=>{ z.dogs.push({name:'',notes:'',photos:[]}); renderEditCard(z,body); });
+  body.appendChild(addBtn);
+
+  const saveBtn=document.createElement('button'); saveBtn.className='save-card-btn'; saveBtn.textContent='💾 Save';
+  saveBtn.addEventListener('click',()=>{ saveCard(z,body); closeCard(); });
+  body.appendChild(saveBtn);
+}
+
+function makeDogEdit(d,i){
+  const wrap=document.createElement('div'); wrap.className='dog-entry';
+  const form=document.createElement('div'); form.className='edit-form-section';
+
+  const nameLabel=document.createElement('label'); nameLabel.className='efl'; nameLabel.textContent='Name (optional)';
+  const nameInput=document.createElement('input'); nameInput.setAttribute('data-f','name'); nameInput.value=d.name||''; nameInput.placeholder='Leave blank if unknown';
+
+  const notesLabel=document.createElement('label'); notesLabel.className='efl'; notesLabel.textContent='Description / notes';
+  const notesTA=document.createElement('textarea'); notesTA.setAttribute('data-f','notes'); notesTA.rows=3;
+  notesTA.placeholder='Behaviour, appearance, health, anything…'; notesTA.value=d.notes||'';
+
+  const photoLabel=document.createElement('label'); photoLabel.className='efl'; photoLabel.textContent='Photos (Google Drive share link or image URL)';
+  const photoList=document.createElement('div'); photoList.className='photo-list'; photoList.setAttribute('data-photos','');
+  (d.photos||[]).forEach(p=>{ photoList.appendChild(makePhotoItem(p)); });
+
+  const addPhotoBtn=document.createElement('button'); addPhotoBtn.className='add-photo-btn'; addPhotoBtn.textContent='+ Add photo URL';
+  addPhotoBtn.addEventListener('click',()=>photoList.appendChild(makePhotoItem('')));
+
+  const delBtn=document.createElement('button'); delBtn.className='del-dog-btn'; delBtn.textContent='🗑 Remove this dog';
+  delBtn.addEventListener('click',()=>{ currentZone.dogs.splice(i,1); renderEditCard(currentZone,$('card-body')); });
+
+  form.appendChild(nameLabel); form.appendChild(nameInput);
+  form.appendChild(notesLabel); form.appendChild(notesTA);
+  form.appendChild(photoLabel); form.appendChild(photoList);
+  form.appendChild(addPhotoBtn); form.appendChild(document.createElement('br')); form.appendChild(delBtn);
+  wrap.appendChild(form);
+  return wrap;
+}
+
+function makePhotoItem(url){
+  const item=document.createElement('div'); item.className='photo-item';
+  const input=document.createElement('input'); input.value=url; input.placeholder='https://…';
+  const rmBtn=document.createElement('button'); rmBtn.textContent='✕';
+  rmBtn.addEventListener('click',()=>item.remove());
+  item.appendChild(input); item.appendChild(rmBtn);
+  return item;
+}
+
+function saveCard(z,body){
+  const ta=$('zone-notes-ta');
+  z.zoneNotes = ta ? ta.value : '';
+  const forms=body.querySelectorAll('.edit-form-section');
+  z.dogs=Array.from(forms).map(el=>{
+    const get=f=>{ const e=el.querySelector(`[data-f="${f}"]`); return e?e.value.trim():''; };
+    const photos=Array.from(el.querySelectorAll('[data-photos] input')).map(i=>i.value.trim()).filter(Boolean);
+    return {name:get('name'), notes:get('notes'), photos};
+  });
+  scheduleSave(); draw();
+}
+
+// ── CANVAS EVENTS ──
+canvas.addEventListener('wheel', e=>{
+  e.preventDefault();
+  const {sx,sy}=getPos(e);
+  zoomBy(e.deltaY<0?0.12:-0.12, sx, sy);
+}, {passive:false});
+
+let mouseDownPos=null;
+
+canvas.addEventListener('mousedown', e=>{
+  const {sx,sy}=getPos(e); mouseDownPos={sx,sy};
+  const {x:wx,y:wy}=sw(sx,sy);
+  // Pan: middle-click or ctrl+left-click
+  if(e.button===1||(e.button===0&&(e.ctrlKey||e.metaKey))){
+    isPanning=true; panStart={sx,sy,px:panX,py:panY};
+    canvas.style.cursor='grab'; e.preventDefault(); return;
   }
-  if(CLICKABLE.includes(z.type)){
-    const has=(z.dogs&&z.dogs.length>0)||(z.zoneNotes&&z.zoneNotes.trim());
-    cx.fillStyle=has?'rgba(255,255,160,0.75)':'rgba(255,255,255,0.22)';
-    cx.beginPath();cx.arc(z.x+pw-6/sc,z.y+6/sc,3/sc,0,Math.PI*2);cx.fill();
-  }
-  cx.restore();
-}
-
-function rr(x,y,w,h,r){
-  cx.beginPath();cx.moveTo(x+r,y);cx.lineTo(x+w-r,y);cx.quadraticCurveTo(x+w,y,x+w,y+r);
-  cx.lineTo(x+w,y+h-r);cx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
-  cx.lineTo(x+r,y+h);cx.quadraticCurveTo(x,y+h,x,y+h-r);
-  cx.lineTo(x,y+r);cx.quadraticCurveTo(x,y,x+r,y);cx.closePath();
-}
-function overlaps(a,b){
-  const ax2=a.x+a.w*G,ay2=a.y+a.h*G,bx2=b.x+b.w*G,by2=b.y+b.h*G;
-  return Math.max(0,Math.min(ax2,bx2)-Math.max(a.x,b.x))>G*0.5&&Math.max(0,Math.min(ay2,by2)-Math.max(a.y,b.y))>G*0.5;
-}
-function fuseGrp(grp){
-  let mx=Infinity,my=Infinity,MX=-Infinity,MY=-Infinity;
-  grp.forEach(z=>{mx=Math.min(mx,z.x);my=Math.min(my,z.y);MX=Math.max(MX,z.x+z.w*G);MY=Math.max(MY,z.y+z.h*G);});
-  return{x:mx,y:my,w:Math.round((MX-mx)/G),h:Math.round((MY-my)/G)};
-}
-function hdls(z){return[{id:'br',x:z.x+z.w*G,y:z.y+z.h*G},{id:'bl',x:z.x,y:z.y+z.h*G},{id:'tr',x:z.x+z.w*G,y:z.y},{id:'tl',x:z.x,y:z.y}];}
-function hitHdl(z,wx,wy){const th=8/sc;for(const h of hdls(z)){if(Math.abs(wx-h.x)<th&&Math.abs(wy-h.y)<th)return h.id;}return null;}
-function hitZone(wx,wy){for(let i=zones.length-1;i>=0;i--){const z=zones[i];if(wx>=z.x&&wx<=z.x+z.w*G&&wy>=z.y&&wy<=z.y+z.h*G)return z;}return null;}
-
-// ── EVENTS ──
-function gp(e){const r=cv.getBoundingClientRect();const cl=e.touches?e.touches[0]:e;return{sx:cl.clientX-r.left,sy:cl.clientY-r.top};}
-cv.addEventListener('wheel',e=>{e.preventDefault();const{sx,sy}=gp(e);zoom(e.deltaY<0?0.12:-0.12,sx,sy);},{passive:false});
-
-let mdPos=null;
-cv.addEventListener('mousedown',e=>{
-  const{sx,sy}=gp(e);mdPos={sx,sy};
-  const{x:wx,y:wy}=sw(sx,sy);
-  if(e.button===1||(e.button===0&&(e.ctrlKey||e.metaKey))){panning=true;panStart={sx,sy,px:panX,py:panY};cv.style.cursor='grab';e.preventDefault();return;}
-  if(drawingBoundary)return;
-  if(authLevel==='master'&&mode!=='select'){
+  if(drawingBoundary) return; // boundary clicks handled in 'click'
+  // Master: place zone
+  if(authLevel==='master' && mode!=='select'){
     const t=ZT[mode]||ZT.custom;
-    const nz={id:idc++,type:mode,label:t.label,x:sn(wx-t.w*G/2),y:sn(wy-t.h*G/2),w:t.w,h:t.h,dogs:[],zoneNotes:''};
-    zones.push(nz);sel=nz;if(mode==='custom')oRen(nz);saveLocal();draw();return;
+    const nz={id:idc++,type:mode,label:t.label,x:snap(wx-t.w*G/2),y:snap(wy-t.h*G/2),w:t.w,h:t.h,dogs:[],zoneNotes:''};
+    zones.push(nz); sel=nz;
+    if(mode==='custom') openRename(nz);
+    scheduleSave(); draw(); return;
   }
-  if(authLevel==='master'&&sel){const rh=hitHdl(sel,wx,wy);if(rh){drag={type:'resize',zone:sel,handle:rh};return;}}
+  // Master: resize handle
+  if(authLevel==='master' && sel){
+    const rh=hitHandle(sel,wx,wy);
+    if(rh){ drag={type:'resize',zone:sel,handle:rh}; return; }
+  }
+  // Master: move zone
   if(authLevel==='master'){
     const z=hitZone(wx,wy);
-    if(z){sel=z;drag={type:'move',zone:z,ox:wx-z.x,oy:wy-z.y};zones.splice(zones.indexOf(z),1);zones.push(z);}
+    if(z){ sel=z; drag={type:'move',zone:z,ox:wx-z.x,oy:wy-z.y}; zones.splice(zones.indexOf(z),1); zones.push(z); }
     else sel=null;
     draw();
   }
 });
 
-cv.addEventListener('mousemove',e=>{
-  const{sx,sy}=gp(e);
-  if(panning){panX=panStart.px+(sx-panStart.sx);panY=panStart.py+(sy-panStart.sy);draw();return;}
-  const{x:wx,y:wy}=sw(sx,sy);
-  if(drawingBoundary){boundaryMousePos={x:wx,y:wy};draw();return;}
+canvas.addEventListener('mousemove', e=>{
+  const {sx,sy}=getPos(e);
+  if(isPanning){ panX=panStart.px+(sx-panStart.sx); panY=panStart.py+(sy-panStart.sy); draw(); return; }
+  const {x:wx,y:wy}=sw(sx,sy);
+  if(drawingBoundary){ boundaryMouse={x:wx,y:wy}; draw(); return; }
   if(drag){
-    if(drag.type==='move'){drag.zone.x=sn(wx-drag.ox);drag.zone.y=sn(wy-drag.oy);}
-    else{
-      const z=drag.zone,h=drag.handle;let nx=z.x,ny=z.y,nw=z.w,nh=z.h;
-      if(h.includes('r'))nw=Math.max(1,Math.round((wx-z.x)/G));
-      if(h.includes('l')){const nx2=sn(wx);nw=Math.max(1,Math.round((z.x+z.w*G-nx2)/G));nx=nx2;}
-      if(h.includes('b'))nh=Math.max(1,Math.round((wy-z.y)/G));
-      if(h.includes('t')){const ny2=sn(wy);nh=Math.max(1,Math.round((z.y+z.h*G-ny2)/G));ny=ny2;}
-      z.x=nx;z.y=ny;z.w=nw;z.h=nh;
+    if(drag.type==='move'){ drag.zone.x=snap(wx-drag.ox); drag.zone.y=snap(wy-drag.oy); }
+    else {
+      const z=drag.zone, h=drag.handle; let nx=z.x,ny=z.y,nw=z.w,nh=z.h;
+      if(h.includes('r')) nw=Math.max(1,Math.round((wx-z.x)/G));
+      if(h.includes('l')){ const nx2=snap(wx); nw=Math.max(1,Math.round((z.x+z.w*G-nx2)/G)); nx=nx2; }
+      if(h.includes('b')) nh=Math.max(1,Math.round((wy-z.y)/G));
+      if(h.includes('t')){ const ny2=snap(wy); nh=Math.max(1,Math.round((z.y+z.h*G-ny2)/G)); ny=ny2; }
+      z.x=nx; z.y=ny; z.w=nw; z.h=nh;
     }
-    draw();return;
+    draw(); return;
   }
-  if(authLevel==='master'&&mode!=='select'&&!drawingBoundary){const t=ZT[mode]||ZT.custom;ghost={x:sn(wx-t.w*G/2),y:sn(wy-t.h*G/2)};draw();return;}
-  if(authLevel==='master'&&sel&&hitHdl(sel,wx,wy))cv.style.cursor='nwse-resize';
-  else if(authLevel==='master'&&!drawingBoundary&&hitZone(wx,wy))cv.style.cursor='move';
-  else if(!drawingBoundary&&hitZone(wx,wy)&&CLICKABLE.includes(hitZone(wx,wy).type))cv.style.cursor='pointer';
-  else cv.style.cursor=drawingBoundary?'crosshair':'default';
+  if(authLevel==='master' && mode!=='select' && !drawingBoundary){
+    const t=ZT[mode]||ZT.custom;
+    ghost={x:snap(wx-t.w*G/2),y:snap(wy-t.h*G/2)}; draw(); return;
+  }
+  if(authLevel==='master' && sel && hitHandle(sel,wx,wy)) canvas.style.cursor='nwse-resize';
+  else if(authLevel==='master' && !drawingBoundary && hitZone(wx,wy)) canvas.style.cursor='move';
+  else if(!drawingBoundary && hitZone(wx,wy) && CLICKABLE.includes(hitZone(wx,wy).type)) canvas.style.cursor='pointer';
+  else canvas.style.cursor=drawingBoundary?'crosshair':'default';
 });
 
-cv.addEventListener('mouseup',()=>{
-  if(panning){panning=false;cv.style.cursor=drawingBoundary?'crosshair':'default';}
-  if(drag){saveLocal();}
-  drag=null;draw();
+canvas.addEventListener('mouseup', ()=>{
+  if(isPanning){ isPanning=false; canvas.style.cursor=drawingBoundary?'crosshair':'default'; }
+  if(drag){ scheduleSave(); }
+  drag=null; draw();
 });
-cv.addEventListener('mouseleave',()=>{ghost=null;panning=false;drag=null;boundaryMousePos=null;draw();});
 
-cv.addEventListener('click',e=>{
-  if(drag)return;
-  const{sx,sy}=gp(e);
-  if(mdPos&&(Math.abs(sx-mdPos.sx)>5||Math.abs(sy-mdPos.sy)>5))return;
-  const{x:wx,y:wy}=sw(sx,sy);
+canvas.addEventListener('mouseleave', ()=>{
+  ghost=null; isPanning=false; drag=null; boundaryMouse=null; draw();
+});
+
+canvas.addEventListener('click', e=>{
+  if(drag) return;
+  const {sx,sy}=getPos(e);
+  if(mouseDownPos && (Math.abs(sx-mouseDownPos.sx)>5||Math.abs(sy-mouseDownPos.sy)>5)) return;
+  const {x:wx,y:wy}=sw(sx,sy);
   if(drawingBoundary){
-    if(boundaryDraft.length>=3){const fp=boundaryDraft[0];if(Math.hypot(wx-fp.x,wy-fp.y)<12/sc){closeBoundaryDraft();return;}}
-    boundaryDraft.push({x:wx,y:wy});draw();return;
+    if(boundaryDraft.length>=3){
+      const fp=boundaryDraft[0];
+      if(Math.hypot(wx-fp.x,wy-fp.y)<12/sc){ closeBoundaryDraft(); return; }
+    }
+    boundaryDraft.push({x:wx,y:wy}); draw(); return;
   }
   const z=hitZone(wx,wy);
-  if(z&&CLICKABLE.includes(z.type))openCard(z);
+  if(z && CLICKABLE.includes(z.type)) openCard(z);
 });
 
-cv.addEventListener('dblclick',e=>{
-  const{sx,sy}=gp(e);const{x:wx,y:wy}=sw(sx,sy);
-  if(drawingBoundary){closeBoundaryDraft();return;}
-  if(authLevel==='master'){const z=hitZone(wx,wy);if(z){sel=z;oRen(z);draw();}}
+canvas.addEventListener('dblclick', e=>{
+  const {sx,sy}=getPos(e); const {x:wx,y:wy}=sw(sx,sy);
+  if(drawingBoundary){ closeBoundaryDraft(); return; }
+  if(authLevel==='master'){ const z=hitZone(wx,wy); if(z){ sel=z; openRename(z); draw(); } }
 });
 
-// Touch
-let tpStart=null,tMoved=false;
-cv.addEventListener('touchstart',e=>{if(e.touches.length===1){const{sx,sy}=gp(e);tpStart={sx,sy,px:panX,py:panY};tMoved=false;}},{passive:true});
-cv.addEventListener('touchmove',e=>{
-  if(e.touches.length===1&&tpStart){const{sx,sy}=gp(e);const dx=sx-tpStart.sx,dy=sy-tpStart.sy;if(Math.abs(dx)>4||Math.abs(dy)>4)tMoved=true;panX=tpStart.px+dx;panY=tpStart.py+dy;draw();}
-  e.preventDefault();
-},{passive:false});
-cv.addEventListener('touchend',e=>{
-  if(!tMoved&&e.changedTouches.length===1&&tpStart){
-    const t=e.changedTouches[0];const r=cv.getBoundingClientRect();
-    const sx=t.clientX-r.left,sy=t.clientY-r.top;const{x:wx,y:wy}=sw(sx,sy);
-    const z=hitZone(wx,wy);if(z&&CLICKABLE.includes(z.type))openCard(z);
+// Touch: pan + tap
+let touchPanStart=null, touchMoved=false;
+canvas.addEventListener('touchstart', e=>{
+  if(e.touches.length===1){ const {sx,sy}=getPos(e); touchPanStart={sx,sy,px:panX,py:panY}; touchMoved=false; }
+}, {passive:true});
+canvas.addEventListener('touchmove', e=>{
+  if(e.touches.length===1 && touchPanStart){
+    const {sx,sy}=getPos(e); const dx=sx-touchPanStart.sx, dy=sy-touchPanStart.sy;
+    if(Math.abs(dx)>4||Math.abs(dy)>4) touchMoved=true;
+    panX=touchPanStart.px+dx; panY=touchPanStart.py+dy; draw();
   }
-  tpStart=null;
+  e.preventDefault();
+}, {passive:false});
+canvas.addEventListener('touchend', e=>{
+  if(!touchMoved && e.changedTouches.length===1 && touchPanStart){
+    const t=e.changedTouches[0]; const r=canvas.getBoundingClientRect();
+    const sx=t.clientX-r.left, sy=t.clientY-r.top;
+    const {x:wx,y:wy}=sw(sx,sy);
+    const z=hitZone(wx,wy);
+    if(z && CLICKABLE.includes(z.type)) openCard(z);
+  }
+  touchPanStart=null;
 });
-let pinchD=null;
-cv.addEventListener('touchstart',e=>{if(e.touches.length===2)pinchD=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);},{passive:true});
-cv.addEventListener('touchmove',e=>{
-  if(e.touches.length===2&&pinchD!==null){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);const mx=(e.touches[0].clientX+e.touches[1].clientX)/2,my=(e.touches[0].clientY+e.touches[1].clientY)/2;const r=cv.getBoundingClientRect();zoom((d-pinchD)*0.005,mx-r.left,my-r.top);pinchD=d;}
-},{passive:false});
-cv.addEventListener('touchend',()=>{pinchD=null;});
 
-// ── RENAME ──
-function oRen(z){const rb=document.getElementById('rename-bar');rb.style.display='flex';const ri=document.getElementById('ri');ri.value=z.label||(ZT[z.type]||ZT.custom).label||'';ri.focus();ri.select();rb._z=z;}
-function apR(){const rb=document.getElementById('rename-bar');const z=rb._z;if(!z)return;z.label=document.getElementById('ri').value;clR();saveLocal();draw();}
-function clR(){document.getElementById('rename-bar').style.display='none';}
-document.getElementById('ri').addEventListener('keydown',e=>{if(e.key==='Enter')apR();if(e.key==='Escape')clR();});
-function delSel(){if(!sel)return;zones.splice(zones.indexOf(sel),1);sel=null;saveLocal();draw();}
+// Touch: pinch zoom
+let pinchDist=null;
+canvas.addEventListener('touchstart', e=>{
+  if(e.touches.length===2) pinchDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY);
+}, {passive:true});
+canvas.addEventListener('touchmove', e=>{
+  if(e.touches.length===2 && pinchDist!==null){
+    const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY);
+    const mx=(e.touches[0].clientX+e.touches[1].clientX)/2;
+    const my=(e.touches[0].clientY+e.touches[1].clientY)/2;
+    const r=canvas.getBoundingClientRect();
+    zoomBy((d-pinchDist)*0.005, mx-r.left, my-r.top);
+    pinchDist=d;
+  }
+}, {passive:false});
+canvas.addEventListener('touchend', ()=>{ pinchDist=null; });
 
-// ── AUTH ──
-function openAuthMenu(){if(authLevel!=='read'){logout();return;}openModal('auth-level-modal');}
-function logout(){
-  authLevel='read';
-  document.getElementById('mode-badge').textContent='READ ONLY';document.getElementById('mode-badge').className='';
-  document.getElementById('auth-btn').textContent='🔒 Log in';
-  document.getElementById('master-toolbar').classList.remove('visible');
-  document.getElementById('rename-bar').style.display='none';
-  document.getElementById('hint').textContent='Tap any zone to see info · Scroll to zoom · Ctrl+drag to pan';
-  if(drawingBoundary)cancelBoundary();
-  sel=null;mode='select';ghost=null;draw();
-}
-function pickLevel(level){
-  pendingLevel=level;closeModal('auth-level-modal');
-  document.getElementById('pw-modal-title').textContent=level==='master'?'⚙️ Master access':'✏️ Editor access';
-  document.getElementById('pw-modal-sub').textContent=level==='master'?'Full map and data editing':'Edit kennel and dog info only';
-  document.getElementById('pw-input').value='';document.getElementById('pw-err').textContent='';
-  openModal('pw-modal');setTimeout(()=>document.getElementById('pw-input').focus(),120);
-}
-async function checkPw(){
-  const v=document.getElementById('pw-input').value;
-  const h=await hashPw(v);
-  const correct=pendingLevel==='master'?pwHashes.master:pwHashes.editor;
-  if(h===correct){closeModal('pw-modal');enterLevel(pendingLevel);}
-  else{document.getElementById('pw-err').textContent='Incorrect password.';document.getElementById('pw-input').select();}
-}
-function enterLevel(level){
-  authLevel=level;
-  const badge=document.getElementById('mode-badge'),btn=document.getElementById('auth-btn');
-  if(level==='master'){badge.textContent='MASTER';badge.className='master';btn.textContent='🔓 Log out';document.getElementById('master-toolbar').classList.add('visible');document.getElementById('hint').textContent='Master: drag to move · dbl-click rename · click zone to edit info';}
-  else{badge.textContent='EDITOR';badge.className='editor';btn.textContent='🔓 Log out';document.getElementById('hint').textContent='Editor: tap any zone to edit its info and dogs';}
-  M('select');draw();
-}
-function openChangePw(){document.getElementById('new-editor-pw').value='';document.getElementById('new-master-pw').value='';document.getElementById('changepw-err').textContent='';openModal('changepw-modal');}
-async function applyChangePw(){
-  const ep=document.getElementById('new-editor-pw').value.trim();
-  const mp=document.getElementById('new-master-pw').value.trim();
-  if(!ep&&!mp){document.getElementById('changepw-err').textContent='Enter at least one new password.';return;}
-  if(ep)pwHashes.editor=await hashPw(ep);
-  if(mp)pwHashes.master=await hashPw(mp);
-  saveLocal();closeModal('changepw-modal');
-}
-function openModal(id){document.getElementById(id).classList.add('open');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
+// ── WIRE UP ALL BUTTONS ──
+$('auth-btn').addEventListener('click', openAuthMenu);
+$('btn-pick-editor').addEventListener('click', ()=>pickLevel('editor'));
+$('btn-pick-master').addEventListener('click', ()=>pickLevel('master'));
+$('btn-cancel-auth').addEventListener('click', ()=>closeModal('auth-level-modal'));
+$('btn-pw-go').addEventListener('click', checkPassword);
+$('btn-pw-cancel').addEventListener('click', ()=>closeModal('pw-modal'));
+$('pw-input').addEventListener('keydown', e=>{ if(e.key==='Enter') checkPassword(); if(e.key==='Escape') closeModal('pw-modal'); });
+$('btn-changepw').addEventListener('click', ()=>{ $('new-editor-pw').value=''; $('new-master-pw').value=''; $('changepw-err').textContent=''; openModal('changepw-modal'); });
+$('btn-save-pw').addEventListener('click', applyChangePw);
+$('btn-cancel-changepw').addEventListener('click', ()=>closeModal('changepw-modal'));
+$('btn-delete').addEventListener('click', ()=>{ if(!sel)return; zones.splice(zones.indexOf(sel),1); sel=null; scheduleSave(); draw(); });
+$('btn-zoom-in').addEventListener('click', ()=>zoomBy(0.15));
+$('btn-zoom-out').addEventListener('click', ()=>zoomBy(-0.15));
+$('btn-reset-view').addEventListener('click', resetView);
+$('btn-boundary').addEventListener('click', startBoundary);
+$('btn-clear-boundary').addEventListener('click', clearBoundary);
+$('btn-cancel-boundary').addEventListener('click', cancelBoundary);
+$('btn-rename-ok').addEventListener('click', applyRename);
+$('btn-rename-cancel').addEventListener('click', cancelRename);
+$('ri').addEventListener('keydown', e=>{ if(e.key==='Enter') applyRename(); if(e.key==='Escape') cancelRename(); });
+$('card-close').addEventListener('click', closeCard);
+$('overlay').addEventListener('click', e=>{ if(e.target===$('overlay')) closeCard(); });
+$('lightbox').addEventListener('click', ()=>$('lightbox').classList.remove('open'));
+document.querySelectorAll('.tb[data-mode]').forEach(btn=>{
+  btn.addEventListener('click', ()=>setMode(btn.dataset.mode));
+});
 
-// ── CARD ──
-function openCard(z){
-  currentZone=z;if(!z.dogs)z.dogs=[];if(z.zoneNotes===undefined)z.zoneNotes='';
-  document.getElementById('card-title').textContent=z.label||(ZT[z.type]||ZT.custom).label||'Zone';
-  const dc=z.dogs.length;document.getElementById('card-subtitle').textContent=dc===0?'No dogs recorded':`${dc} dog${dc>1?'s':''}`;
-  const body=document.getElementById('card-body');
-  if(authLevel==='read')renderRead(z,body);else renderEdit(z,body);
-  openModal('overlay');
-}
-function renderRead(z,body){
-  let html='<div class="zone-notes-section"><div class="zone-notes-label">Zone notes</div>';
-  if(z.zoneNotes&&z.zoneNotes.trim())html+=`<div class="zone-notes-read">${esc(z.zoneNotes)}</div>`;
-  else html+=`<div class="zone-notes-read empty">No notes for this zone.</div>`;
-  html+='</div>';
-  const dogs=z.dogs||[];
-  if(dogs.length===0){html+=`<div class="empty-msg"><div class="ico">🐕</div>No dog info recorded yet.</div>`;body.innerHTML=html;return;}
-  dogs.forEach(d=>{
-    html+=`<div class="dog-entry"><div class="dog-name-read">${esc(d.name||'(unnamed)')}</div>`;
-    if((d.photos||[]).length>0){html+=`<div class="dog-photos">`;d.photos.filter(p=>p).forEach(p=>{html+=`<img class="dog-photo" src="${gdUrl(p)}" alt="" onerror="this.style.display='none'" onclick="openLightbox('${gdUrl(p)}')">`});html+=`</div>`;}
-    if(d.notes&&d.notes.trim())html+=`<div class="dog-notes-read">${esc(d.notes)}</div>`;
-    html+=`</div>`;
-  });
-  body.innerHTML=html;
-}
-function renderEdit(z,body){
-  body.innerHTML='';
-  const zns=document.createElement('div');zns.className='zone-notes-section';
-  zns.innerHTML=`<div class="zone-notes-label">Zone notes (free text)</div><textarea class="zone-notes-edit" id="zone-notes-ta" rows="3" placeholder="General notes about this zone…">${esc(z.zoneNotes||'')}</textarea>`;
-  body.appendChild(zns);
-  const dw=document.createElement('div');dw.id='dogs-wrap';
-  z.dogs.forEach((d,i)=>dw.appendChild(mkDogEdit(d,i)));
-  body.appendChild(dw);
-  const addBtn=document.createElement('button');addBtn.className='add-dog-btn';addBtn.textContent='+ Add a dog';
-  addBtn.onclick=()=>{z.dogs.push({name:'',notes:'',photos:[]});renderEdit(z,body);};
-  body.appendChild(addBtn);
-  const saveBtn=document.createElement('button');saveBtn.className='save-card-btn';saveBtn.textContent='💾 Save';
-  saveBtn.onclick=()=>{saveCard(z,body);closeOverlay();};
-  body.appendChild(saveBtn);
-}
-function mkDogEdit(d,i){
-  const wrap=document.createElement('div');wrap.className='dog-entry';
-  wrap.innerHTML=`<div class="edit-form-section">
-    <label class="efl">Name (optional)</label>
-    <input data-f="name" value="${esc(d.name||'')}" placeholder="Leave blank if unknown"/>
-    <label class="efl">Description / notes</label>
-    <textarea data-f="notes" rows="3" placeholder="Behaviour, appearance, health, anything…">${esc(d.notes||'')}</textarea>
-    <label class="efl">Photos (Google Drive share link or image URL)</label>
-    <div class="photo-list" data-photos>${(d.photos||[]).map(p=>`<div class="photo-item"><input value="${esc(p)}" placeholder="https://…"/><button onclick="this.closest('.photo-item').remove()">✕</button></div>`).join('')}</div>
-    <button class="add-photo-btn" onclick="addPhotoField(this)">+ Add photo URL</button>
-    <br/><button class="del-dog-btn">🗑 Remove this dog</button>
-  </div>`;
-  wrap.querySelector('.del-dog-btn').onclick=()=>{currentZone.dogs.splice(i,1);renderEdit(currentZone,document.getElementById('card-body'));};
-  return wrap;
-}
-function addPhotoField(btn){const list=btn.previousElementSibling;const item=document.createElement('div');item.className='photo-item';item.innerHTML=`<input value="" placeholder="https://…"/><button onclick="this.closest('.photo-item').remove()">✕</button>`;list.appendChild(item);}
-function saveCard(z,body){
-  z.zoneNotes=(document.getElementById('zone-notes-ta')||{}).value||'';
-  const entries=body.querySelectorAll('.edit-form-section');
-  z.dogs=Array.from(entries).map(el=>{
-    const fv=f=>{const e=el.querySelector(`[data-f="${f}"]`);return e?e.value.trim():'';};
-    const photos=Array.from(el.querySelectorAll('[data-photos] input')).map(i=>i.value.trim()).filter(Boolean);
-    return{name:fv('name'),notes:fv('notes'),photos};
-  });
-  saveLocal();draw();
-}
-function gdUrl(url){if(!url)return url;const m=url.match(/\/d\/([a-zA-Z0-9_-]+)/);if(m)return`https://drive.google.com/thumbnail?id=${m[1]}&sz=w400`;return url;}
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function openLightbox(src){document.getElementById('lightbox-img').src=src;document.getElementById('lightbox').classList.add('open');}
-function closeCardBg(e){if(e.target===document.getElementById('overlay'))closeOverlay();}
-function closeOverlay(){document.getElementById('overlay').classList.remove('open');currentZone=null;}
+window.addEventListener('resize', initCanvas);
 
-// ── JSON (for GitHub publishing) ──
-function showJson(){
-  // Bump version so volunteers get the update banner
-  dataVersion++;
-  const data={version:dataVersion,zones,boundary,pwHashes};
-  document.getElementById('json-ta').value=JSON.stringify(data,null,2);
-  document.getElementById('json-modal').classList.add('open');
-}
-function hideJson(){document.getElementById('json-modal').classList.remove('open');}
-function cpJ(){const ta=document.getElementById('json-ta');ta.select();document.execCommand('copy');}
-function ldJ(){
-  try{
-    const d=JSON.parse(document.getElementById('json-ta').value);
-    applyData(d);sel=null;hideJson();saveLocal();draw();
-  }catch(e){alert('Invalid JSON');}
-}
-
-window.addEventListener('resize',ini);
-loadData();
-ini();
-M('select');
+// ── START ──
+loadFromFirebase().then(()=>{ initCanvas(); setMode('select'); });
 </script>
-</body>
-</html>
+
+
+</body></html>
