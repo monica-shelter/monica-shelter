@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0045)file:///C:/Users/alrea/Downloads/index_3.html -->
+<!-- saved from url=(0045)file:///C:/Users/alrea/Downloads/index_5.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
@@ -147,9 +147,10 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:#888;co
     <button class="tb" data-mode="custom">✏️ Custom</button>
     <div class="tb-sep"></div>
     <button class="tb" id="btn-delete">🗑</button>
+    <button class="tb" id="btn-edit-info">✏️ Edit info</button>
     <div class="tb-sep"></div>
     <button class="tb" id="btn-zoom-out">−</button>
-    <span id="zoom-lbl">44%</span>
+    <span id="zoom-lbl">92%</span>
     <button class="tb" id="btn-zoom-in">+</button>
     <button class="tb" id="btn-reset-view">⌂</button>
     <div class="tb-sep"></div>
@@ -176,17 +177,17 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:#888;co
   <div id="hint">Tap any zone to see info · Scroll to zoom · Ctrl+drag to pan</div>
 </div>
 
-<div id="overlay">
+<div id="overlay" class="">
   <div id="dog-card">
     <div id="card-header">
-      <div><div id="card-title">Zone</div><div id="card-subtitle"></div></div>
+      <div><div id="card-title">Open area</div><div id="card-subtitle">No dogs recorded</div></div>
       <button id="card-close">✕</button>
     </div>
-    <div id="card-body"></div>
+    <div id="card-body"><div class="zone-notes-section"><div class="zone-notes-label">Zone notes</div><div class="zone-notes-read empty">No notes for this zone.</div></div><div class="empty-msg"><div class="ico">🐕</div>No dog info recorded yet.</div></div>
   </div>
 </div>
 
-<div id="lightbox"><img id="lightbox-img" src="file:///C:/Users/alrea/Downloads/index_3.html" alt=""></div>
+<div id="lightbox"><img id="lightbox-img" src="file:///C:/Users/alrea/Downloads/index_5.html" alt=""></div>
 
 <div class="modal-bg" id="auth-level-modal">
   <div class="modal-box">
@@ -201,10 +202,10 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:#888;co
 
 <div class="modal-bg" id="pw-modal">
   <div class="modal-box">
-    <h2 id="pw-modal-title">Enter password</h2><p id="pw-modal-sub"></p>
+    <h2 id="pw-modal-title">⚙️ Master access</h2><p id="pw-modal-sub">Full map and data editing</p>
     <input type="password" id="pw-input" placeholder="Password">
     <button class="modal-go" id="btn-pw-go">Unlock</button>
-    <div class="modal-err" id="pw-err"></div>
+    <div class="modal-err" id="pw-err">Incorrect password.</div>
     <button class="modal-cancel" id="btn-pw-cancel">Cancel</button>
   </div>
 </div>
@@ -673,7 +674,19 @@ function openCard(z){
   currentZone=z;
   if(!z.dogs) z.dogs=[];
   if(z.zoneNotes===undefined) z.zoneNotes='';
-  $('card-title').textContent = z.label||(ZT[z.type]||ZT.custom).label||'Zone';
+  const titleEl=$('card-title');
+  const label=z.label||(ZT[z.type]||ZT.custom).label||'Zone';
+  if(authLevel==='master' || authLevel==='editor'){
+    titleEl.innerHTML='';
+    const inp=document.createElement('input');
+    inp.value=label;
+    inp.style.cssText='background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.5);color:var(--cream);font-size:16px;font-weight:700;font-family:inherit;width:100%;outline:none;padding:1px 0';
+    inp.addEventListener('input',()=>{ z.label=inp.value; scheduleSave(); draw(); });
+    titleEl.appendChild(inp);
+    setTimeout(()=>inp.focus(),50);
+  } else {
+    titleEl.textContent=label;
+  }
   const dc=z.dogs.length;
   $('card-subtitle').textContent = dc===0 ? 'No dogs recorded' : `${dc} dog${dc>1?'s':''}`;
   const body=$('card-body');
@@ -870,6 +883,8 @@ canvas.addEventListener('click', e=>{
     }
     boundaryDraft.push({x:wx,y:wy}); draw(); return;
   }
+  // In master mode, single click selects/moves only — card opens via toolbar button
+  if(authLevel==='master') return;
   const z=hitZone(wx,wy);
   if(z && CLICKABLE.includes(z.type)) openCard(z);
 });
@@ -962,6 +977,7 @@ $('btn-changepw').addEventListener('click', ()=>{ $('new-editor-pw').value=''; $
 $('btn-save-pw').addEventListener('click', applyChangePw);
 $('btn-cancel-changepw').addEventListener('click', ()=>closeModal('changepw-modal'));
 $('btn-delete').addEventListener('click', ()=>{ if(!sel)return; zones.splice(zones.indexOf(sel),1); sel=null; scheduleSave(); draw(); });
+$('btn-edit-info').addEventListener('click', ()=>{ if(sel && CLICKABLE.includes(sel.type)) openCard(sel); });
 $('btn-zoom-in').addEventListener('click', ()=>zoomBy(0.15));
 $('btn-zoom-out').addEventListener('click', ()=>zoomBy(-0.15));
 $('btn-reset-view').addEventListener('click', resetView);
