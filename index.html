@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0045)file:///C:/Users/alrea/Downloads/index_1.html -->
+<!-- saved from url=(0045)file:///C:/Users/alrea/Downloads/index_3.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
@@ -126,13 +126,13 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:#888;co
   <h1>🐾 Monica's Shelter <span>Muscelusa, Romania</span></h1>
   <div id="header-right">
     <div id="sync-status"><div id="sync-dot" class="ok"></div><span id="sync-txt">Synced</span></div>
-    <span id="mode-badge" class="master">MASTER</span>
-    <button id="auth-btn">🔓 Log out</button>
+    <span id="mode-badge">READ ONLY</span>
+    <button id="auth-btn">🔒 Log in</button>
   </div>
 </div>
 
 <div id="main">
-  <div id="master-toolbar" class="visible">
+  <div id="master-toolbar">
     <button class="tb on" id="bsel" data-mode="select">↖ Select</button>
     <div class="tb-sep"></div>
     <span style="font-size:11px;color:rgba(255,255,255,.4)">Add:</span>
@@ -157,6 +157,8 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:#888;co
     <button class="tb danger" id="btn-clear-boundary">✕ Boundary</button>
     <div class="tb-sep"></div>
     <button class="tb" id="btn-changepw">🔑 Passwords</button>
+    <div class="tb-sep"></div>
+    <button class="tb" id="btn-saveload">💾 Save / Load</button>
   </div>
 
   <div id="canvas-wrap"><canvas id="cv" width="1528" height="662" style="cursor: default;"></canvas></div>
@@ -165,7 +167,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:#888;co
     <span>📐 Click to place points · Double-click or click first point (yellow) to close</span>
     <button id="btn-cancel-boundary">Cancel</button>
   </div>
-  <div id="rename-bar" style="display: none;">
+  <div id="rename-bar">
     <span style="font-size:11px;color:rgba(255,255,255,.6)">Label:</span>
     <input id="ri" type="text" placeholder="Zone name…">
     <button id="btn-rename-ok">OK</button>
@@ -184,7 +186,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:#888;co
   </div>
 </div>
 
-<div id="lightbox"><img id="lightbox-img" src="file:///C:/Users/alrea/Downloads/index_1.html" alt=""></div>
+<div id="lightbox"><img id="lightbox-img" src="file:///C:/Users/alrea/Downloads/index_3.html" alt=""></div>
 
 <div class="modal-bg" id="auth-level-modal">
   <div class="modal-box">
@@ -199,10 +201,10 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:#888;co
 
 <div class="modal-bg" id="pw-modal">
   <div class="modal-box">
-    <h2 id="pw-modal-title">⚙️ Master access</h2><p id="pw-modal-sub">Full map and data editing</p>
+    <h2 id="pw-modal-title">Enter password</h2><p id="pw-modal-sub"></p>
     <input type="password" id="pw-input" placeholder="Password">
     <button class="modal-go" id="btn-pw-go">Unlock</button>
-    <div class="modal-err" id="pw-err">Incorrect password.</div>
+    <div class="modal-err" id="pw-err"></div>
     <button class="modal-cancel" id="btn-pw-cancel">Cancel</button>
   </div>
 </div>
@@ -217,6 +219,20 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:#888;co
     <button class="modal-go" id="btn-save-pw">Save passwords</button>
     <div class="modal-err" id="changepw-err"></div>
     <button class="modal-cancel" id="btn-cancel-changepw">Cancel</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="json-modal">
+  <div class="modal-box" style="max-width:560px;text-align:left">
+    <h2 style="margin-bottom:6px">💾 Save / Load</h2>
+    <p style="margin-bottom:10px;font-size:12px;color:var(--text-muted)">Copy this JSON as a backup, or paste a previous JSON and click Load to push it to Firebase.</p>
+    <textarea id="json-ta" spellcheck="false" style="width:100%;height:200px;font-family:monospace;font-size:11px;padding:8px;border:1px solid #c0b8a8;border-radius:8px;resize:vertical;margin-bottom:10px"></textarea>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="modal-go" id="btn-json-copy" style="flex:1">📋 Copy all</button>
+      <button class="modal-go" id="btn-json-load" style="flex:1;background:var(--bark)">📂 Load into Firebase</button>
+      <button class="modal-cancel" id="btn-json-close" style="flex:0 0 auto;margin:0;border:1px solid #c0b8a8;border-radius:8px;padding:9px 14px">Close</button>
+    </div>
+    <div class="modal-err" id="json-err"></div>
   </div>
 </div>
 
@@ -905,7 +921,36 @@ canvas.addEventListener('touchmove', e=>{
 }, {passive:false});
 canvas.addEventListener('touchend', ()=>{ pinchDist=null; });
 
+// ── SAVE / LOAD JSON ──
+function openSaveLoad(){
+  $('json-ta').value = JSON.stringify({zones, boundary, pwHashes}, null, 2);
+  $('json-err').textContent = '';
+  openModal('json-modal');
+}
+function copyJson(){
+  const ta=$('json-ta'); ta.select(); document.execCommand('copy');
+  $('json-err').textContent='Copied!';
+  $('json-err').style.color='#2a7a2a';
+}
+async function loadJson(){
+  try {
+    const d = JSON.parse($('json-ta').value);
+    if(!d.zones) throw new Error('Missing zones');
+    applyData(d);
+    await saveToFirebase();
+    closeModal('json-modal');
+    initCanvas();
+  } catch(e) {
+    $('json-err').textContent = 'Invalid JSON — ' + e.message;
+    $('json-err').style.color = '#c04020';
+  }
+}
+
 // ── WIRE UP ALL BUTTONS ──
+$('btn-saveload').addEventListener('click', openSaveLoad);
+$('btn-json-copy').addEventListener('click', copyJson);
+$('btn-json-load').addEventListener('click', loadJson);
+$('btn-json-close').addEventListener('click', ()=>closeModal('json-modal'));
 $('auth-btn').addEventListener('click', openAuthMenu);
 $('btn-pick-editor').addEventListener('click', ()=>pickLevel('editor'));
 $('btn-pick-master').addEventListener('click', ()=>pickLevel('master'));
