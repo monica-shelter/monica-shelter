@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0045)file:///C:/Users/alrea/Downloads/index_8.html -->
+<!-- saved from url=(0046)file:///C:/Users/alrea/Downloads/index_11.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
@@ -162,6 +162,24 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:#888;co
 .snap-item .snap-restore{font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid var(--bark);background:transparent;color:var(--bark-dark);cursor:pointer;font-weight:600}
 .snap-item .snap-restore:hover{background:var(--bark);color:var(--cream)}
 #snap-close{width:100%;padding:8px;border-radius:8px;border:1px solid #c0b8a8;background:var(--cream);cursor:pointer;font-size:13px;font-weight:600}
+/* Sidebar dynamic sections */
+#sidebar-tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+#sidebar-tabs::-webkit-scrollbar{display:none}
+.stab-wrap{display:flex;align-items:stretch;flex-shrink:0}
+.stab-name{padding:11px 10px;font-size:12px;font-weight:700;color:rgba(255,255,255,.45);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;touch-action:manipulation;transition:color .15s}
+.stab-name:hover{color:rgba(255,255,255,.75)}
+.stab-wrap.active .stab-name{color:var(--bark-light);border-bottom-color:var(--bark-light)}
+.stab-del{display:none;padding:11px 5px 11px 0;font-size:13px;cursor:pointer;color:rgba(255,100,100,.6);touch-action:manipulation;background:none;border:none;line-height:1}
+.stab-del:hover{color:rgba(255,100,100,1)}
+.stab-wrap.editable .stab-del{display:block}
+#sidebar-add-tab{flex-shrink:0;padding:10px 12px;font-size:18px;color:rgba(255,255,255,.35);cursor:pointer;border:none;background:none;touch-action:manipulation;line-height:1}
+#sidebar-add-tab:hover{color:var(--bark-light)}
+.sidebar-section-name{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.2);color:var(--cream);font-size:15px;font-weight:700;padding:0 0 6px;margin-bottom:12px;font-family:var(--font);outline:none}
+.sidebar-section-name:focus{border-bottom-color:var(--bark-light)}
+.sidebar-section-name[readonly]{cursor:default}
+.sidebar-empty-state{padding:30px 16px;text-align:center;color:rgba(255,255,255,.3);font-size:13px;line-height:1.6}
+.sidebar-empty-state button{margin-top:14px;padding:9px 18px;border-radius:8px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:var(--cream);font-size:13px;cursor:pointer;touch-action:manipulation}
+.sidebar-empty-state button:hover{background:rgba(255,255,255,.16)}
 
 </style>
 </head>
@@ -174,19 +192,13 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:#888;co
 </div>
 
 <!-- Sidebar toggle -->
-<div id="sidebar-overlay" class=""></div>
-<button id="sidebar-toggle" class=""><span class="tog-icon">☰</span> MENU</button>
+<div id="sidebar-overlay"></div>
+<button id="sidebar-toggle"><span class="tog-icon">☰</span> MENU</button>
 
 <!-- Sidebar -->
-<div id="sidebar" class="">
-  <div id="sidebar-tabs">
-    <div class="stab" data-tab="routine">Daily Routine</div>
-    <div class="stab active" data-tab="cheatsheet">Romanian Cheatsheet</div>
-  </div>
-  <div id="sidebar-content">
-    <div id="tab-routine" style="display: none;"><div class="sidebar-read empty">Nothing here yet.</div></div>
-    <div id="tab-cheatsheet" style="display: block;"><div class="sidebar-read empty">Nothing here yet.</div></div>
-  </div>
+<div id="sidebar">
+  <div id="sidebar-tabs"><div style="display: flex; align-items: stretch; border-bottom: 1px solid rgba(255, 255, 255, 0.12); overflow-x: auto;"><div class="stab-wrap active"><button class="stab-name" style="background: none; border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; font-family: inherit;">Feeding</button><button class="stab-del" title="Delete section">✕</button></div><div class="stab-wrap"><button class="stab-name" style="background: none; border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; font-family: inherit;">Cleaning</button><button class="stab-del" title="Delete section">✕</button></div><div class="stab-wrap"><button class="stab-name" style="background: none; border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; font-family: inherit;">New sectiontest</button><button class="stab-del" title="Delete section">✕</button></div><div class="stab-wrap"><button class="stab-name" style="background: none; border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; font-family: inherit;">New section</button><button class="stab-del" title="Delete section">✕</button></div><div class="stab-wrap"><button class="stab-name" style="background: none; border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; font-family: inherit;">New section</button><button class="stab-del" title="Delete section">✕</button></div></div></div>
+  <div id="sidebar-content"><div style="font-size: 15px; font-weight: 700; color: var(--bark-light); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid rgba(255, 255, 255, 0.12);">Feeding</div><div class="sidebar-read">test</div></div>
 </div>
 
 <!-- Snapshots modal -->
@@ -228,7 +240,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:#888;co
     <button class="tb" id="btn-edit-info">✏️ Edit info</button>
     <div class="tb-sep"></div>
     <button class="tb" id="btn-zoom-out">−</button>
-    <span id="zoom-lbl">68%</span>
+    <span id="zoom-lbl">44%</span>
     <button class="tb" id="btn-zoom-in">+</button>
     <button class="tb" id="btn-reset-view">⌂</button>
     <div class="tb-sep"></div>
@@ -256,30 +268,17 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:#888;co
   <div id="hint">Tap any zone to see info · Scroll to zoom · Ctrl+drag to pan</div>
 </div>
 
-<div id="overlay" class="">
+<div id="overlay">
   <div id="dog-card">
     <div id="card-header">
-      <div><div id="card-title">5</div><div id="card-subtitle">5 dogs</div></div>
+      <div><div id="card-title">Zone</div><div id="card-subtitle"></div></div>
       <button id="card-close">✕</button>
     </div>
-    <div id="card-body"><div class="zone-notes-section"><div class="zone-notes-label">Zone notes</div><div class="zone-notes-read">Always remember to bring Akita back in, to attach Rufus to the tree, and to have Dina and Mufasa back in their kennel before starting feeding those. Usually you just call Dina and Mufasa and they come at you and enter when you open the door, but if Mama is nearby it might get a bit harder for Dina to enter.
-
-Feeding:
-Adriel idk, gone the day of the switching with Pancho and hasn't seen him been fed in here. Pancho before him was eating in the front left corner, before Emil's cage. Maybe it stayed the same.
-
-Rancho to the front right corner, be careful that Mama doesn't steal his when giving the bowl (usualy have hers in my hand to direct her).
-
-Mama eats before the brother's cage. Not too near to it, but far enough from Rufus that he can't reach her with the leash.
-
-Rufus, between the houses near the tree he's attached to.
-
-Peps eats in a house near the back, he usually just wait inside when feeding starts.
-
-You've gotta be careful when feeding those, they often try to steal from each other's if one of them finished early.</div></div><div class="dog-entry"><div class="dog-name-read">Adriel</div><div class="dog-notes-read">Loves humans. Don't really know how he is with the others since he changed place.</div></div><div class="dog-entry"><div class="dog-name-read">Rancho</div><div class="dog-notes-read">Very sweet, a bit shy but loves cuddles. Can try to steal food from other but won't insist.</div></div><div class="dog-entry"><div class="dog-name-read">Mama</div><div class="dog-notes-read">Loves cuddles as well. Can try and still food but usually doesn't if someone's inside.</div></div><div class="dog-entry"><div class="dog-name-read">Rufus</div><div class="dog-notes-read">Arrived not long ago, things might change. He's fine with other dogs and always asks for pets whenever someone enters. Got some big skin issues on his back.</div></div><div class="dog-entry"><div class="dog-name-read">Peps</div><div class="dog-notes-read">Lovely, nothing to say really. Has an injury on his right ear, please check on him if it heals correctly.</div></div></div>
+    <div id="card-body"></div>
   </div>
 </div>
 
-<div id="lightbox"><img id="lightbox-img" src="file:///C:/Users/alrea/Downloads/index_8.html" alt=""></div>
+<div id="lightbox"><img id="lightbox-img" src="file:///C:/Users/alrea/Downloads/index_11.html" alt=""></div>
 
 <div class="modal-bg" id="auth-level-modal">
   <div class="modal-box">
@@ -366,8 +365,8 @@ let isPanning=false, panStart=null;
 let authLevel='read', pendingLevel=null, currentZone=null;
 let drawingBoundary=false, boundaryDraft=[], boundaryMouse=null;
 let saveTimer=null, ignoreSnapshot=false;
-let sidebarData={routine:'',cheatsheet:''};
-let sidebarTab='routine';
+let sidebarSections=[]; // [{id, name, content}]
+let sidebarTab=0; // index of active section
 let renameTarget=null;
 
 const ZT={
@@ -468,7 +467,7 @@ function applyData(d){
   zones = d.zones || [];
   boundary = d.boundary || [];
   pwHashes = d.pwHashes || {editor:'',master:''};
-  sidebarData = d.sidebarData || {routine:'',cheatsheet:''};
+  sidebarSections = d.sidebarSections || [];
   idc = zones.reduce((m,z)=>Math.max(m,(z.id||0)+1), 1);
 }
 
@@ -482,7 +481,7 @@ async function saveToFirebase(){
   ignoreSnapshot = true;
   try {
     const now = Date.now();
-    await setDoc(DATA_REF, {zones, boundary, pwHashes, sidebarData, lastSaved: now});
+    await setDoc(DATA_REF, {zones, boundary, pwHashes, sidebarSections, lastSaved: now});
     syncDot('ok','Saved');
     maybeTakeSnapshot(now);
   } catch(e) {
@@ -501,7 +500,7 @@ async function maybeTakeSnapshot(now){
   lastSnapshotDay = day;
   try {
     const snapRef = doc(db, 'shelter_snapshots', day);
-    await setDoc(snapRef, {zones, boundary, pwHashes, sidebarData, savedAt: now, label: day});
+    await setDoc(snapRef, {zones, boundary, pwHashes, sidebarSections, savedAt: now, label: day});
     // Prune snapshots older than 7 days
     const q = query(SNAP_COL, orderBy('savedAt'), limit(100));
     const all = await getDocs(q);
@@ -744,7 +743,7 @@ function doLogout(){
   $('master-toolbar').classList.remove('visible');
   $('rename-bar').style.display='none';
   if(drawingBoundary) cancelBoundary();
-  sel=null; setMode('select'); draw();
+  sel=null; setMode('select'); draw(); renderSidebar();
   setHint('Tap any zone to see info · Scroll to zoom · Ctrl+drag to pan');
 }
 
@@ -784,7 +783,7 @@ function enterLevel(level){
     $('auth-btn').textContent='🔓 Log out';
     setHint('Editor: tap any zone to edit its info and dogs');
   }
-  setMode('select'); draw();
+  setMode('select'); draw(); renderSidebar();
 }
 
 async function applyChangePw(){
@@ -1108,28 +1107,104 @@ async function loadJson(){
 // ── SIDEBAR ──
 function renderSidebar(){
   const isEditable = authLevel==='editor' || authLevel==='master';
-  ['routine','cheatsheet'].forEach(tab=>{
-    const el = $('tab-'+tab);
-    el.innerHTML='';
+  const tabsEl = $('sidebar-tabs');
+  const contentEl = $('sidebar-content');
+  tabsEl.innerHTML='';
+  contentEl.innerHTML='';
+
+  if(sidebarSections.length===0){
+    // Empty state
+    const empty=document.createElement('div'); empty.className='sidebar-empty-state';
     if(isEditable){
-      const ta=document.createElement('textarea'); ta.className='sidebar-edit';
-      ta.value=sidebarData[tab]||''; ta.placeholder=tab==='routine'?'Write the daily routine here…':'Write Romanian words and phrases here…';
-      const saveBtn=document.createElement('button'); saveBtn.className='sidebar-save'; saveBtn.textContent='💾 Save';
-      saveBtn.addEventListener('click',()=>{ sidebarData[tab]=ta.value; scheduleSave(); saveBtn.textContent='✓ Saved'; setTimeout(()=>saveBtn.textContent='💾 Save',1500); });
-      el.appendChild(ta); el.appendChild(saveBtn);
+      empty.innerHTML='<div>No sections yet.</div><button id="sidebar-first-add">+ Add a section</button>';
+      contentEl.appendChild(empty);
+      contentEl.querySelector('#sidebar-first-add').addEventListener('click',()=>addSidebarSection());
     } else {
-      const div=document.createElement('div'); div.className='sidebar-read';
-      if(sidebarData[tab]&&sidebarData[tab].trim()){ div.textContent=sidebarData[tab]; }
-      else { div.classList.add('empty'); div.textContent='Nothing here yet.'; }
-      el.appendChild(div);
+      empty.textContent='No content yet.';
+      contentEl.appendChild(empty);
     }
+    return;
+  }
+
+  // Clamp active tab index
+  if(sidebarTab >= sidebarSections.length) sidebarTab = sidebarSections.length-1;
+  if(sidebarTab < 0) sidebarTab = 0;
+
+  // Build tab strip
+  const tabsRow=document.createElement('div'); tabsRow.style.cssText='display:flex;align-items:stretch;border-bottom:1px solid rgba(255,255,255,.12);overflow-x:auto;-webkit-overflow-scrolling:touch';
+  sidebarSections.forEach((sec,i)=>{
+    const wrap=document.createElement('div'); wrap.className='stab-wrap'+(i===sidebarTab?' active':'')+(isEditable?' editable':'');
+    const nameBtn=document.createElement('button'); nameBtn.className='stab-name'; nameBtn.textContent=sec.name||'Untitled'; nameBtn.style.cssText='background:none;border:none;font-family:inherit';
+    nameBtn.addEventListener('click',()=>{ sidebarTab=i; renderSidebar(); });
+    const delBtn=document.createElement('button'); delBtn.className='stab-del'; delBtn.textContent='✕'; delBtn.title='Delete section';
+    delBtn.addEventListener('click',()=>{
+      if(!confirm('Delete section "'+sec.name+'"?')) return;
+      sidebarSections.splice(i,1);
+      if(sidebarTab>=sidebarSections.length) sidebarTab=Math.max(0,sidebarSections.length-1);
+      scheduleSave(); renderSidebar();
+    });
+    wrap.appendChild(nameBtn); wrap.appendChild(delBtn); tabsRow.appendChild(wrap);
   });
+  if(isEditable){
+    const addBtn=document.createElement('button'); addBtn.id='sidebar-add-tab'; addBtn.textContent='+'; addBtn.title='Add section';
+    addBtn.addEventListener('click',()=>addSidebarSection());
+    tabsRow.appendChild(addBtn);
+  }
+  tabsEl.appendChild(tabsRow);
+
+  // Build active section content
+  const sec=sidebarSections[sidebarTab];
+  if(!sec) return;
+
+  if(isEditable){
+    // Editable section name
+    const nameInput=document.createElement('input'); nameInput.className='sidebar-section-name';
+    nameInput.value=sec.name||''; nameInput.placeholder='Section name…';
+    nameInput.addEventListener('input',()=>{ sec.name=nameInput.value; updateTabLabel(sidebarTab,sec.name); });
+    nameInput.addEventListener('blur',()=>{ scheduleSave(); });
+
+    // Content textarea
+    const ta=document.createElement('textarea'); ta.className='sidebar-edit';
+    ta.value=sec.content||''; ta.placeholder='Write content here…';
+
+    // Save button
+    const saveBtn=document.createElement('button'); saveBtn.className='sidebar-save'; saveBtn.textContent='💾 Save';
+    saveBtn.addEventListener('click',()=>{
+      sec.name=nameInput.value||'Untitled';
+      sec.content=ta.value;
+      scheduleSave();
+      saveBtn.textContent='✓ Saved';
+      setTimeout(()=>saveBtn.textContent='💾 Save',1500);
+      updateTabLabel(sidebarTab,sec.name);
+    });
+
+    contentEl.appendChild(nameInput); contentEl.appendChild(ta); contentEl.appendChild(saveBtn);
+  } else {
+    // Read-only
+    const nameEl=document.createElement('div'); nameEl.style.cssText='font-size:15px;font-weight:700;color:var(--bark-light);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.12)';
+    nameEl.textContent=sec.name||'Untitled';
+    const div=document.createElement('div'); div.className='sidebar-read';
+    if(sec.content&&sec.content.trim()){ div.textContent=sec.content; }
+    else { div.classList.add('empty'); div.textContent='Nothing here yet.'; }
+    contentEl.appendChild(nameEl); contentEl.appendChild(div);
+  }
 }
 
-function switchSidebarTab(tab){
-  sidebarTab=tab;
-  document.querySelectorAll('.stab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
-  ['routine','cheatsheet'].forEach(t=>{ $('tab-'+t).style.display=t===tab?'block':'none'; });
+function updateTabLabel(idx, name){
+  const wraps=document.querySelectorAll('#sidebar-tabs .stab-wrap');
+  if(wraps[idx]){
+    const btn=wraps[idx].querySelector('.stab-name');
+    if(btn) btn.textContent=name||'Untitled';
+  }
+}
+
+function addSidebarSection(){
+  const newSec={id: Date.now(), name:'New section', content:''};
+  sidebarSections.push(newSec);
+  sidebarTab=sidebarSections.length-1;
+  renderSidebar();
+  // Focus the name input
+  setTimeout(()=>{ const ni=$('sidebar-content').querySelector('.sidebar-section-name'); if(ni){ni.focus();ni.select();} },50);
 }
 
 // ── WIRE UP ALL BUTTONS ──
@@ -1182,9 +1257,7 @@ function toggleSidebar(forceClose){
 
 sidebarToggle.addEventListener('click', ()=>toggleSidebar());
 sidebarOverlay.addEventListener('click', ()=>toggleSidebar(true));
-document.querySelectorAll('.stab').forEach(t=>{
-  t.addEventListener('click',()=>switchSidebarTab(t.dataset.tab));
-});
+// sidebar tabs are wired dynamically in renderSidebar()
 $('snap-close').addEventListener('click',()=>closeModal('snap-modal'));
 $('btn-snapshots').addEventListener('click',openSnapshots);
 
